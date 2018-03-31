@@ -12,7 +12,7 @@ CMatrix068::~CMatrix068(void)
 {
 }
 
-void CMatrix068::Set(float *p)	//¸ø¾ØÕó16¸öÔªËØ¸³Öµ
+void CMatrix068::Set(float *p)	//ç»™16ä¸ªçŸ©é˜µå…ƒç´ èµ‹å€¼
 {
 	this->m00=p[0];this->m10=p[1];this->m20=p[2];this->m30=p[3];
 	this->m01=p[4];this->m11=p[5];this->m21=p[6];this->m31=p[7];
@@ -20,7 +20,7 @@ void CMatrix068::Set(float *p)	//¸ø¾ØÕó16¸öÔªËØ¸³Öµ
 	this->m03=p[12];this->m13=p[13];this->m23=p[14];this->m33=p[15];
 }
 
-CMatrix068& CMatrix068::operator=(const CMatrix068& p)//¾ØÕó¸³Öµ
+CMatrix068& CMatrix068::operator=(const CMatrix068& p)//çŸ©é˜µèµ‹å€¼
 {
 	m00=p.m00;m10=p.m10;m20=p.m20;m30=p.m30;
 	m01=p.m01;m11=p.m11;m21=p.m21;m31=p.m31;
@@ -29,7 +29,7 @@ CMatrix068& CMatrix068::operator=(const CMatrix068& p)//¾ØÕó¸³Öµ
 	return *this;
 }
 
-CMatrix068 CMatrix068::operator*(float d)//¾ØÕóÊı³Ë
+CMatrix068 CMatrix068::operator*(float d)//çŸ©é˜µæ•°ä¹˜
 {
 	CMatrix068 CMatrix068_T;
 	CMatrix068_T.m00=m00*d;CMatrix068_T.m10=m10*d;CMatrix068_T.m20=m20*d;CMatrix068_T.m30=m30*d;
@@ -39,7 +39,7 @@ CMatrix068 CMatrix068::operator*(float d)//¾ØÕóÊı³Ë
 	return CMatrix068_T;
 }
 
-CMatrix068 CMatrix068::operator*(CMatrix068& p)//¾ØÕóÏà³Ë
+CMatrix068 CMatrix068::operator*(CMatrix068& p)//çŸ©é˜µç›¸ä¹˜
 {
 		CMatrix068 CMatrix068_T;
 		CMatrix068_T.m00=m00*p.m00+m01*p.m10+m02*p.m20+m03*p.m30;
@@ -65,7 +65,7 @@ CMatrix068 CMatrix068::operator*(CMatrix068& p)//¾ØÕóÏà³Ë
 		return CMatrix068_T;
 }
 
-CVector068 CMatrix068::vecMul(CVector068& p) //¾ØÕóÓëÏòÁ¿Ïà³Ë
+CVector068 CMatrix068::vecMul(CVector068& p) //çŸ©é˜µä¹˜å‘é‡
 {
 		CVector068 CVector068_T;
 		CVector068_T.x=m00*p.x+m01*p.y+m02*p.z+m03*0.0;
@@ -74,7 +74,7 @@ CVector068 CMatrix068::vecMul(CVector068& p) //¾ØÕóÓëÏòÁ¿Ïà³Ë
 		return CVector068_T;
 }
 
-CVector068 CMatrix068::posMul(CVector068& p)//¾ØÕóÓëµãÏà³Ë
+CVector068 CMatrix068::posMul(CVector068& p)//çŸ©é˜µä¹˜ç‚¹
 {
 	CVector068 CVector068_T;
 	CVector068_T.x=m00*p.x+m01*p.y+m02*p.z+m03*1.0;
@@ -83,13 +83,14 @@ CVector068 CMatrix068::posMul(CVector068& p)//¾ØÕóÓëµãÏà³Ë
 	return CVector068_T;
 }
 
-void CMatrix068::SetRotate(float seta,CVector068 axis)	//ÉèÖÃÎªĞı×ª¾ØÕó
+void CMatrix068::SetRotate(float seta,CVector068 axis)	//è®¾ç½®æ—‹è½¬çŸ©é˜µ
 {
 		float nx;
 		float ny;
 		float nz;
 		float seta_r;
 		seta_r=seta*(Pi/180);
+
 		nx=axis.x;ny=axis.y;nz=axis.z;
 		m03=0.0;m13=0.0;m23=0.0;m33=1.0;m30=0.0;m31=0.0;m32=0.0;
 
@@ -97,32 +98,31 @@ void CMatrix068::SetRotate(float seta,CVector068 axis)	//ÉèÖÃÎªĞı×ª¾ØÕó
 		m01=nx*ny*(1-cos(seta_r))+nz*sin(seta_r);
 		m02=nx*nz*(1-cos(seta_r))-ny-sin(seta_r);
 
-		m10=nx*nx*(1-cos(seta))
-		m11=
-		m12=
+		m10=nx*ny*(1-cos(seta_r))-nz*sin(seta_r);
+		m11=ny*(1-cos(seta_r))+cos(seta_r);
+		m12=ny*nz*(1-cos(seta_r))+nx*sin(seta_r);
 
-		m20=nx*nx*(1-cos())
-		m21=
-		m22=
-
+		m20=nx*nz*(1-cos(seta_r))+ny*sin(seta_r);
+		m21=ny*nz*(1-cos(seta_r))-nx*sin(seta_r);
+		m22=nz*(1-cos(seta_r))+cos(seta_r);
 }
 
-// void CMatrix068::SetTrans(CVector068 trans)		//ÉèÖÃÎªÆ½ÒÆ¾ØÕó
+// void CMatrix068::SetTrans(CVector068 trans)		//ï¿½ï¿½ï¿½ï¿½ÎªÆ½ï¿½Æ¾ï¿½ï¿½ï¿½
 // {
 //
 // }
 //
-// void CMatrix068::SetScale(CVector068 p)		//ÉèÖÃÎªËõ·Å¾ØÕó
+// void CMatrix068::SetScale(CVector068 p)		//ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Å¾ï¿½ï¿½ï¿½
 // {
 //
 // }
 //
-// float CMatrix068::Inverse()//¾ØÕóÇóÄæ,³É¹¦·µ»ØĞĞÁĞÊ½µÄÖµ£¬·ñÔò·µ»Ø0
+// float CMatrix068::Inverse()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½0
 // {
 //
 // }
 //
-// CMatrix068 CMatrix068::GetInverse()//·µ»ØÄæ¾ØÕó
+// CMatrix068 CMatrix068::GetInverse()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // {
 //
 // }
