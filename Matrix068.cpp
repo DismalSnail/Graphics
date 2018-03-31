@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Matrix068.h"
-
-
+#include <math.h>
+#define Pi 3.1415926
 CMatrix068::CMatrix068(void)
 {
 
@@ -63,24 +63,50 @@ CMatrix068 CMatrix068::operator*(CMatrix068& p)//矩阵相乘
 		CMatrix068_T.m33=m30*p.m30+m31*p.m31+m32*p.m32+m33*p.m33;
 
 		return CMatrix068_T;
+}
+
+CVector068 CMatrix068::vecMul(CVector068& p) //矩阵与向量相乘
+{
+		CVector068 CVector068_T;
+		CVector068_T.x=m00*p.x+m01*p.y+m02*p.z+m03*0.0;
+		CVector068_T.y=m10*p.x+m11*p.y+m12*p.z+m13*0.0;
+		CVector068_T.z=m20*p.x+m21*p.y+m22*p.z+m23*0.0;
+		return CVector068_T;
+}
+
+CVector068 CMatrix068::posMul(CVector068& p)//矩阵与点相乘
+{
+	CVector068 CVector068_T;
+	CVector068_T.x=m00*p.x+m01*p.y+m02*p.z+m03*1.0;
+	CVector068_T.y=m10*p.x+m11*p.y+m12*p.z+m13*1.0;
+	CVector068_T.z=m20*p.x+m21*p.y+m22*p.z+m23*1.0;
+	return CVector068_T;
+}
+
+void CMatrix068::SetRotate(float seta,CVector068 axis)	//设置为旋转矩阵
+{
+		float nx;
+		float ny;
+		float nz;
+		float seta_r;
+		seta_r=seta*(Pi/180);
+		nx=axis.x;ny=axis.y;nz=axis.z;
+		m03=0.0;m13=0.0;m23=0.0;m33=1.0;m30=0.0;m31=0.0;m32=0.0;
+
+		m00=nx*nx*(1-cos(seta_r))+cos(seta_r);
+		m01=nx*ny*(1-cos(seta_r))+nz*sin(seta_r);
+		m02=nx*nz*(1-cos(seta_r))-ny-sin(seta_r);
+
+		m10=nx*nx*(1-cos(seta))
+		m11=
+		m12=
+
+		m20=nx*nx*(1-cos())
+		m21=
+		m22=
 
 }
 
-// CVector068 CMatrix068::vecMul(CVector068& p) //矩阵与向量相乘
-// {
-//
-// }
-//
-// CVector068 CMatrix068::posMul(CVector068& p)//矩阵与点相乘
-// {
-//
-// }
-//
-// void CMatrix068::SetRotate(float seta,CVector068 axis)	//设置为旋转矩阵
-// {
-//
-// }
-//
 // void CMatrix068::SetTrans(CVector068 trans)		//设置为平移矩阵
 // {
 //
