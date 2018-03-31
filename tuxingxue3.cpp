@@ -28,10 +28,11 @@ int main(int argc, char const *argv[]) {
   CMatrix068_B.Set(Array_B);
   CMatrix068_A.Set(Array_A);
   //CMatrix068_A = CMatrix068_B;
-  CMatrix068_C=CMatrix068_B*2.0;
+  CMatrix068_C=CMatrix068_A*CMatrix068_B;
   std::cout << CMatrix068_C.m00<<" "<<CMatrix068_C.m10<<" "<<CMatrix068_C.m20<<" "<<CMatrix068_C.m30 << '\n';
   std::cout << CMatrix068_B.m00<<" "<<CMatrix068_B.m10<<" "<<CMatrix068_B.m20<<" "<<CMatrix068_B.m30 << '\n';
   std::cout << CMatrix068_A.m00<<" "<<CMatrix068_A.m10<<" "<<CMatrix068_A.m20<<" "<<CMatrix068_A.m30 << '\n';
   //return 0;
   system("PAUSE");
+  return 0;
 }
