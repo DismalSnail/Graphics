@@ -1,4 +1,4 @@
-// 001.cpp : Defines the entry point for the console application.
+ï»¿// 001.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -19,17 +19,17 @@ float g_angle = 0 ;
 CVector068 g_pos[POINTNUM];
 CVector068 g_circle[CIRCLENUM];
 CVector068 g_allpos[POINTNUM*CIRCLENUM];
-CVector068 g_ballpos,g_balldir;//ÇòµÄÎ»ÖÃºÍ·½Ïò
+CVector068 g_ballpos,g_balldir;//çƒçš„ä½ç½®å’Œæ–¹å‘
 
-float g_ballspeed = 0.06;//ÇòµÄËÙ¶È
+float g_ballspeed = 0.06;//çƒçš„é€Ÿåº¦
 float g_ballspeed1 = 0;
-int g_ballindex;//µ±Ç°ÇòËùÔÚµÄÇúÏß½ÚµãÎ»ÖÃ
-int change=0;
+int g_ballindex;//å½“å‰çƒæ‰€åœ¨çš„æ›²çº¿èŠ‚ç‚¹ä½ç½®
+int change=0;//è§†ç‚¹æ§åˆ¶
 void update()
 {
 
 	g_ballspeed1 = abs(g_ballspeed);
-	if(g_ballspeed < 0)//ËÙ¶ÈÎª¸º
+	if(g_ballspeed < 0)//é€Ÿåº¦ä¸ºè´Ÿ
 	{
 		if(g_ballindex>0)
 		{
@@ -107,7 +107,7 @@ void update()
 	cout << g_ballspeed1 <<endl;
 }
 
-/*Ë¢ĞÂº¯Êı*/
+/*åˆ·æ–°å‡½æ•°*/
 void myTimerFunc(int val)
 {
 	g_angle+=0.01;
@@ -116,10 +116,21 @@ void myTimerFunc(int val)
 	glutTimerFunc(1,myTimerFunc,1);
 }
 
-/*¹¹½¨Ãû×Ö¹ì¼£µÄº¯Êı*/
+/*æ„å»ºåå­—è½¨è¿¹çš„å‡½æ•°*/
 void SetRC()
 {
-	//³õÊ¼»¯Î»ÖÃÏòÁ¿
+	//å®šä¹‰äº†ä¸€ä¸ªåœ†çš„è·¯å¾„ã€‚
+	for(int i=0; i<CIRCLENUM; i++)
+	{
+		float angle = i*2*3.14/(CIRCLENUM-1);
+		g_circle[i].x = 0;
+		g_circle[i].y = 1*cos(angle);
+		g_circle[i].z = 1*sin(angle);
+	}
+	//åˆå§‹åŒ–ä½ç½®å‘é‡
+	float R=2,seta=0;
+	int midlast = POINTNUM/2-1;//ç¬¬ä¸€æ®µçš„æœ€åä¸€ä¸ªç‚¹
+	//åˆå§‹åŒ–ä½ç½®å‘é‡
 	int j = 0;
 	for(int i=0; i<3; i++)
 	{
@@ -342,8 +353,6 @@ void SetRC()
 		g_pos[i][1] = -2;
 		g_pos[i][2] = 0;
 	}
-	float R=2,seta=0;
-	int midlast = POINTNUM/2-1;//µÚÒ»¶ÎµÄ×îºóÒ»¸öµã
 
 	CMatrix068 mat;
 	for(int i=0; i<POINTNUM; i++)
@@ -358,11 +367,11 @@ void SetRC()
 		{
 			dir = g_pos[i] - g_pos[(i+POINTNUM-1)%POINTNUM];
 		}
-		dir.Normalize();//·½Ïò
+		dir.Normalize();//æ–¹å‘
 		rotang = acos(dir.x);
 		if(dir.y<0) rotang = -rotang;
-		mat.SetRotate(rotang,2);//ÉèÖÃÎªĞı×ª¾ØÕó¡£
-		mat[12] = g_pos[i].x;	//ÉèÖÃÆ½ÒÆ²¿·Ö¡£
+		mat.SetRotate(rotang,2);//è®¾ç½®ä¸ºæ—‹è½¬çŸ©é˜µã€‚
+		mat[12] = g_pos[i].x;	//è®¾ç½®å¹³ç§»éƒ¨åˆ†ã€‚
 		mat[13] = g_pos[i].y;
 		mat[14] = g_pos[i].z;
 		for(int j=0;j<CIRCLENUM;j++)
@@ -377,7 +386,7 @@ void SetRC()
 	g_balldir.Normalize();
 	glEnable(GL_DEPTH_TEST);
 }
-/*½ÓÊÜ°´¼üµÄº¯Êı*/
+/*æ¥å—æŒ‰é”®çš„å‡½æ•°*/
 void myKeyboardFunc(unsigned char key,int x, int y)
 {
 	switch(key)
@@ -391,6 +400,8 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 		g_ballspeed -= 0.03;
 		break;
 	case '1':
+		change=1-change;
+	case '0':
 		g_ballpos = g_pos[0];
 		g_balldir = g_pos[1]-g_pos[0];
 		g_balldir.Normalize();
@@ -399,11 +410,11 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 	}
 }
 
-/*»­»úÆ÷ÈË*/
+/*ç”»æœºå™¨äºº*/
 void DrawRobot(int type)
 {
 	float size=0.5;
-	//Í·
+	//å¤´
 	//glPushMatrix();
 	//glColor3f(1,1,0);
 	//glutSolidSphere(size*0.5,36,36);
@@ -414,14 +425,14 @@ void DrawRobot(int type)
 	glScalef(0.4,0.6,0.4);
 	glutSolidCube(size);
 	glPopMatrix();
-	//Éí×Ó
+	//èº«å­
 	glColor3f(1,0,0);
 	glPushMatrix();
 	glTranslatef(0,-size,0);
 	glScalef(0.8,1,0.8);
 	glutSolidCube(size);
 	glPopMatrix();
-	//½£1
+	//å‰‘1
 	glColor3f(1,0.5,0);
 	glPushMatrix();
 	glTranslatef(-0.5,-size/1.5,0);
@@ -432,7 +443,7 @@ void DrawRobot(int type)
 	glScalef(0.2,2,0.2);
 	glutSolidCube(size);
 	glPopMatrix();
-	//½£2
+	//å‰‘2
 	glColor3f(1,0.5,0);
 	glPushMatrix();
 	glTranslatef(-0.5,-size/1.5,0);
@@ -443,7 +454,7 @@ void DrawRobot(int type)
 	glScalef(0.2,2,0.2);
 	glutSolidCube(size);
 	glPopMatrix();
-	//¸ì²²
+	//èƒ³è†Š
 	glColor3f(0,1,0);
 	glPushMatrix();
 	glTranslatef(0,-size*0.7,-size*0.7);
@@ -455,7 +466,7 @@ void DrawRobot(int type)
 	glScalef(0.2,1,0.2);
 	glutSolidCube(size);
 	glPopMatrix();
-	//¸ì²²
+	//èƒ³è†Š
 	glColor3f(0,1,0);
 	glPushMatrix();
 	//glTranslatef(size*0.7,-size*0.7,0);
@@ -469,7 +480,7 @@ void DrawRobot(int type)
 	glutSolidCube(size);
 	glPopMatrix();
 
-	//ÍÈ
+	//è…¿
 	glColor3f(0,0,1);
 	glPushMatrix();
 	glTranslatef(0,-size*1.5,-size*0.2);
@@ -481,7 +492,7 @@ void DrawRobot(int type)
 	glScalef(0.2,1,0.2);
 	glutSolidCube(size);
 	glPopMatrix();
-	//ÍÈ
+	//è…¿
 	glColor3f(0,0,1);
 	glPushMatrix();
 	glTranslatef(0,-size*1.5,size*0.2);
@@ -495,16 +506,16 @@ void DrawRobot(int type)
 	glPopMatrix();
 }
 
-/*ÏÔÊ¾Ã¿¸öµã*/
+/*æ˜¾ç¤ºæ¯ä¸ªç‚¹*/
 void myDisplay(void)
 {
 	static int type=0;
 	float b = 0.0;
 	g_iCurFrame++;
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
 	glTranslatef(0,0,-25);
-	//glRotatef(g_angle,0,1,0);
+	glRotatef(g_angle,0,1,0);
 
 	CVector068 v1,v2,v3;
 	v1.Set(0,0,1);
@@ -512,6 +523,12 @@ void myDisplay(void)
 	v2 = v1.crossMul(g_balldir);
 	float a = (v3.x*v2.x+v3.y*v2.y)/(sqrt(pow(v3.x,2)+pow(v3.y,2))*sqrt(pow(v2.x,2)+pow(v2.y,2)));
 	b = 180/3.14*acos(a);
+	if(change == 1){
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
+		CVector068 pos = g_ballpos + g_balldir*(-10);
+		gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
+	}
 
 	glPushMatrix();
 	if(g_iCurFrame%20==0) type = 1-type;
@@ -533,16 +550,9 @@ void myDisplay(void)
 			CVector068 dir;
 			float rotang = 0;
 			dir = g_pos[(i+1)%POINTNUM]-g_pos[i];
-			dir.Normalize();//·½Ïò
+			dir.Normalize();//
 			rotang = acos(dir.x)*180/3.14;
 			if(dir.y<0) rotang = -rotang;
-
-			if(change == 1){
-				glMatrixMode( GL_MODELVIEW );
-				glLoadIdentity();
-				CVector068 pos = g_ballpos + g_balldir*(-10);
-				gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
-			}
 
 			glPushMatrix();
 			glTranslatef(g_pos[i].x,g_pos[i].y,g_pos[i].z);
@@ -556,7 +566,7 @@ void myDisplay(void)
 	}
 	else if(g_mode==1)
 	{
-		int midlast = POINTNUM/2-1;//µÚÒ»±Ê»­×îºóÒ»µã¡£
+		int midlast = POINTNUM/2-1;//
 		CMatrix068 mat;
 		float lastrotang = 0;
 
@@ -565,14 +575,7 @@ void myDisplay(void)
 
 		for(int i=0;i<POINTNUM-1;i++)
 		{
-			if(change == 1){
-				glMatrixMode( GL_MODELVIEW );
-				glLoadIdentity();
-				CVector068 pos = g_ballpos + g_balldir*(-10);
-				gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
-			}
-
-			if(i==midlast)//µÚÒ»±Ê»­½áÊø£¬µÚ¶ş±Ê»­¿ªÊ¼
+			if(i==midlast)//ï¿½ï¿½Ò»ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Ê»ï¿½ï¿½ï¿½Ê¼
 			{
 				glEnd();
 				glColor4f(0.1,0.1,0.1,0.5);
@@ -597,7 +600,8 @@ void myDisplay(void)
 	glutSwapBuffers();
 }
 
-/*Ë¢ĞÂÏÔÊ¾´°¿ÚµÄº¯Êı*/
+
+/*åˆ·æ–°æ˜¾ç¤ºçª—å£çš„å‡½æ•°*/
 void myReshape(int w,int h)
 {
 	GLfloat nRange = 100.0f;
@@ -609,16 +613,16 @@ void myReshape(int w,int h)
 	glLoadIdentity();
 }
 
-/*Ö÷º¯Êı*/
+/*ä¸»å‡½æ•°*/
 int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE| GLUT_DEPTH);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(400, 400);
-	glutCreateWindow("µÚÒ»¸öOpenGL³ÌĞò");
+	glutInitWindowSize(800, 800);
+	glutCreateWindow("ç¬¬ä¸€ä¸ªOpenGLç¨‹åº");
 	glutDisplayFunc(&myDisplay);
-	glutTimerFunc(1,myTimerFunc,2);
+	glutTimerFunc(1,myTimerFunc,1);
 	glutReshapeFunc(&myReshape);
 	glutKeyboardFunc(&myKeyboardFunc);
 	SetRC();
