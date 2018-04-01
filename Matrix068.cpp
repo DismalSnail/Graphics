@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "Matrix068.h"
 #include <math.h>
 #define Pi 3.1415926
@@ -12,7 +12,7 @@ CMatrix068::~CMatrix068(void)
 {
 }
 
-void CMatrix068::Set(float *p)	//给16个矩阵元素赋值
+void CMatrix068::Set(float *p)	//设置矩阵16个元素
 {
 	this->m00=p[0];this->m10=p[1];this->m20=p[2];this->m30=p[3];
 	this->m01=p[4];this->m11=p[5];this->m21=p[6];this->m31=p[7];
@@ -74,7 +74,7 @@ CVector068 CMatrix068::vecMul(CVector068& p) //矩阵乘向量
 		return CVector068_T;
 }
 
-CVector068 CMatrix068::posMul(CVector068& p)//矩阵乘点
+CVector068 CMatrix068::posMul(CVector068& p)//矩阵乘数
 {
 	CVector068 CVector068_T;
 	CVector068_T.x=m00*p.x+m01*p.y+m02*p.z+m03*1.0;
@@ -90,39 +90,45 @@ void CMatrix068::SetRotate(float seta,CVector068 axis)	//设置旋转矩阵
 		float nz;
 		float seta_r;
 		seta_r=seta*(Pi/180);
-
+		axis.Normalize();
 		nx=axis.x;ny=axis.y;nz=axis.z;
 		m03=0.0;m13=0.0;m23=0.0;m33=1.0;m30=0.0;m31=0.0;m32=0.0;
 
 		m00=nx*nx*(1-cos(seta_r))+cos(seta_r);
-		m01=nx*ny*(1-cos(seta_r))+nz*sin(seta_r);
-		m02=nx*nz*(1-cos(seta_r))-ny-sin(seta_r);
+		m01=nx*ny*(1-cos(seta_r))-nz*sin(seta_r);
+		m02=nx*nz*(1-cos(seta_r))+ny*sin(seta_r);
 
-		m10=nx*ny*(1-cos(seta_r))-nz*sin(seta_r);
-		m11=ny*(1-cos(seta_r))+cos(seta_r);
-		m12=ny*nz*(1-cos(seta_r))+nx*sin(seta_r);
+		m10=nx*ny*(1-cos(seta_r))+nz*sin(seta_r);
+		m11=ny*ny*(1-cos(seta_r))+cos(seta_r);
+		m12=ny*nz*(1-cos(seta_r))-nx*sin(seta_r);
 
-		m20=nx*nz*(1-cos(seta_r))+ny*sin(seta_r);
-		m21=ny*nz*(1-cos(seta_r))-nx*sin(seta_r);
-		m22=nz*(1-cos(seta_r))+cos(seta_r);
+		m20=nx*nz*(1-cos(seta_r))-ny*sin(seta_r);
+		m21=ny*nz*(1-cos(seta_r))+nx*sin(seta_r);
+		m22=nz*nz*(1-cos(seta_r))+cos(seta_r);
 }
 
-// void CMatrix068::SetTrans(CVector068 trans)		//����Ϊƽ�ƾ���
-// {
-//
-// }
-//
-// void CMatrix068::SetScale(CVector068 p)		//����Ϊ���ž���
-// {
-//
-// }
-//
-// float CMatrix068::Inverse()//��������,�ɹ���������ʽ��ֵ�����򷵻�0
-// {
-//
-// }
-//
-// CMatrix068 CMatrix068::GetInverse()//����������
+ void CMatrix068::SetTrans(CVector068 trans)//设置为平移矩阵
+ {
+	  m00=1;m10=0;m20=0;m30=0;
+	  m01=0;m11=1;m21=0;m31=0;
+	  m02=0;m12=0;m22=1;m32=0;
+	  m03=trans.x;m13=trans.y,m23=trans.z,m33=1;
+ }
+
+ void CMatrix068::SetScale(CVector068 p)//设置为缩放矩阵
+ {
+	 m00=p.x;m10=0;m20=0;m30=0;
+	 m01=0;m11=p.y;m21=0;m31=0;
+	 m02=0;m12=0;m22=p.z;m32=0;
+	 m03=0;m13=0,m23=0,m33=1;
+ }
+
+ float CMatrix068::Inverse()//矩阵求逆
+ {
+
+ }
+
+// CMatrix068 CMatrix068::GetInverse()//
 // {
 //
 // }
