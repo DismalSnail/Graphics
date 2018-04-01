@@ -125,7 +125,17 @@ void CMatrix068::SetRotate(float seta,CVector068 axis)	//设置旋转矩阵
 
  float CMatrix068::Inverse()//矩阵求逆
  {
-
+	 float value0;
+	 float value1;
+	 float value2;
+	 float value3;
+	 float value;
+	 value0=m11*m22*m33+m12*m23*m31+m21*m32*m13-m13*m22*m31-m21*m12*m33-m32*m23*m11;
+	 value1=m10*m22*m33+m12*m23*m30+m20*m32*m13-m13*m22*m30-m12*m20*m33-m23*m32*m10;
+	 value2=m10*m21*m33+m11*m23*m30+m20*m31*m13-m13*m21*m30-m20*m11*m33-m31*m23*m10;
+	 value3=m10*m21*m32+m11*m22*m30+m20*m31*m12-m12*m21*m30-m20*m11*m32-m22*m31*m10;
+	 value = m00*value0-m01*value1+m02*value2-m03*value3;
+	 return value;
  }
 
 // CMatrix068 CMatrix068::GetInverse()//
