@@ -31,6 +31,8 @@ public:
 
 	void SetScale(CVector068 p);		//设置为缩放矩阵
 
+	CMatrix068& SetRotate(float seta,int axis);//0表示x轴旋转，1表示y轴,2表示z轴
+
 	float Inverse();//矩阵求逆,成功返回行列式的值，否则返回0
 
 	CMatrix068 GetInverse();//返回逆矩阵

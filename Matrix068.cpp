@@ -178,3 +178,31 @@ CMatrix068 CMatrix068::GetInverse()//矩阵求逆
 	}
 	return CMatrix068_T;
 }
+
+CMatrix068& CMatrix068::SetRotate(float seta,int axis)//0表示x轴旋转，1表示y轴,2表示z轴
+{
+	float c = cos(seta);
+	float s = sin(seta);
+	if(axis==0)
+	{
+		m00=1;m01=0;m02=0;m03=0;
+		m10=0;m11=c;m12=-s;m13=0;
+		m20=0;m21=s;m22=c;m23=0;
+		m30=0;m31=0;m32=0;m33=1;
+	}
+	else if(axis==1)
+	{
+		m00=c;m01=0;m02=s;m03=0;
+		m10=0;m11=1;m12=0;m13=0;
+		m20=-s;m21=0;m22=c;m23=0;
+		m30=0;m31=0;m32=0;m33=1;
+	}
+	else
+	{
+		m00=c;m01=-s;m02=0;m03=0;
+		m10=s;m11=c;m12=0;m13=0;
+		m20=0;m21=0;m22=1;m23=0;
+		m30=0;m31=0;m32=0;m33=1;
+	}
+	return *this;
+}

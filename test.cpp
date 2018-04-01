@@ -1,8 +1,9 @@
-ï»¿// 001.cpp : Defines the entry point for the console application.
+// 001.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
 #include "Vector068.h"
+#include "Matrix068.h"
 #include "math.h"
 #include "stdio.h"
 #include "stdlib.h"
@@ -14,97 +15,99 @@ int g_iCurFrame=0;
 int g_mode = 0;
 float g_angle = 0 ;
 #define POINTNUM 129
-
+#define CIRCLENUM 20
 CVector068 g_pos[POINTNUM];
-CVector068 g_ballpos,g_balldir;//çƒçš„ä½ç½®å’Œæ–¹å‘
+CVector068 g_circle[CIRCLENUM];
+CVector068 g_allpos[POINTNUM*CIRCLENUM];
+CVector068 g_ballpos,g_balldir;//ÇòµÄÎ»ÖÃºÍ·½Ïò
 
-float g_ballspeed = 0.06;//çƒçš„é€Ÿåº¦
+float g_ballspeed = 0.06;//ÇòµÄËÙ¶È
 float g_ballspeed1 = 0;
-int g_ballindex;//å½“å‰çƒæ‰€åœ¨çš„æ›²çº¿èŠ‚ç‚¹ä½ç½®
-
+int g_ballindex;//µ±Ç°ÇòËùÔÚµÄÇúÏß½ÚµãÎ»ÖÃ
+int change=0;
 void update()
-{	
+{
 
 	g_ballspeed1 = abs(g_ballspeed);
-	if(g_ballspeed < 0)//é€Ÿåº¦ä¸ºè´Ÿ
+	if(g_ballspeed < 0)//ËÙ¶ÈÎª¸º
+	{
+		if(g_ballindex>0)
 		{
-			if(g_ballindex>0)
+			float leftlen = (g_pos[g_ballindex-1] - g_ballpos).len();
+			g_balldir = g_pos[g_ballindex-1]-g_ballpos;
+			g_balldir.Normalize();
+			if(leftlen>=g_ballspeed1)
 			{
-				float leftlen = (g_pos[g_ballindex-1] - g_ballpos).len();
-				g_balldir = g_pos[g_ballindex-1]-g_ballpos;
-				g_balldir.Normalize();
-				if(leftlen>=g_ballspeed1)
-				{
-					g_ballpos = g_ballpos + g_balldir * g_ballspeed1;
-				}
-				else
-				{		
-					g_ballindex--;
-					if(g_ballindex<0)
-					{
-						g_ballpos = g_ballpos + g_balldir * leftlen;
-						g_balldir = g_pos[POINTNUM-1]-g_pos[g_ballindex+1];
-						g_balldir.Normalize();
-						g_ballindex=-1;
-					}
-					else
-					{
-						g_ballpos = g_ballpos + g_balldir * leftlen;
-						g_balldir = g_pos[g_ballindex-1]-g_pos[g_ballindex];
-						g_balldir.Normalize();
-					}	
-					g_ballspeed1-=leftlen;
-				}
+				g_ballpos = g_ballpos + g_balldir * g_ballspeed1;
 			}
 			else
 			{
-				g_balldir = g_pos[POINTNUM-1]-g_pos[g_ballindex];
-				g_balldir.Normalize();
-				g_ballindex=POINTNUM;
+				g_ballindex--;
+				if(g_ballindex<0)
+				{
+					g_ballpos = g_ballpos + g_balldir * leftlen;
+					g_balldir = g_pos[POINTNUM-1]-g_pos[g_ballindex+1];
+					g_balldir.Normalize();
+					g_ballindex=-1;
+				}
+				else
+				{
+					g_ballpos = g_ballpos + g_balldir * leftlen;
+					g_balldir = g_pos[g_ballindex-1]-g_pos[g_ballindex];
+					g_balldir.Normalize();
+				}
+				g_ballspeed1-=leftlen;
 			}
 		}
 		else
 		{
-			if(g_ballindex<POINTNUM-1)
+			g_balldir = g_pos[POINTNUM-1]-g_pos[g_ballindex];
+			g_balldir.Normalize();
+			g_ballindex=POINTNUM;
+		}
+	}
+	else
+	{
+		if(g_ballindex<POINTNUM-1)
+		{
+			float leftlen = (g_pos[g_ballindex+1] - g_ballpos).len();
+			g_balldir = g_pos[g_ballindex+1]-g_ballpos;
+			g_balldir.Normalize();
+			if(leftlen>=g_ballspeed1)
 			{
-				float leftlen = (g_pos[g_ballindex+1] - g_ballpos).len();
-				g_balldir = g_pos[g_ballindex+1]-g_ballpos;
-				g_balldir.Normalize();
-				if(leftlen>=g_ballspeed1)
-				{
-					g_ballpos = g_ballpos + g_balldir * g_ballspeed1;
-				}
-				else
-				{		
-					g_ballindex++;
-					if(g_ballindex>=POINTNUM-1)
-					{
-						g_ballpos =g_ballpos + g_balldir * leftlen;
-						g_balldir = g_pos[0]-g_pos[g_ballindex-1];
-						g_balldir.Normalize();
-						g_ballindex=-1;
-					}
-					else
-					{
-						g_ballpos = g_ballpos + g_balldir * leftlen;
-						g_balldir = g_pos[g_ballindex+1]-g_pos[g_ballindex];
-						g_balldir.Normalize();
-					}	
-					g_ballspeed1-=leftlen;
-				}
+				g_ballpos = g_ballpos + g_balldir * g_ballspeed1;
 			}
 			else
 			{
-				g_balldir = g_pos[0]-g_pos[g_ballindex];
-				g_balldir.Normalize();
-				g_ballindex=-1;
+				g_ballindex++;
+				if(g_ballindex>=POINTNUM-1)
+				{
+					g_ballpos =g_ballpos + g_balldir * leftlen;
+					g_balldir = g_pos[0]-g_pos[g_ballindex-1];
+					g_balldir.Normalize();
+					g_ballindex=-1;
+				}
+				else
+				{
+					g_ballpos = g_ballpos + g_balldir * leftlen;
+					g_balldir = g_pos[g_ballindex+1]-g_pos[g_ballindex];
+					g_balldir.Normalize();
+				}
+				g_ballspeed1-=leftlen;
 			}
 		}
+		else
+		{
+			g_balldir = g_pos[0]-g_pos[g_ballindex];
+			g_balldir.Normalize();
+			g_ballindex=-1;
+		}
+	}
 	cout << g_ballpos.x<<" "<< g_ballpos.y <<" "<<g_ballpos.z << endl;
 	cout << g_ballspeed1 <<endl;
 }
 
-/*åˆ·æ–°å‡½æ•°*/
+/*Ë¢ĞÂº¯Êı*/
 void myTimerFunc(int val)
 {
 	g_angle+=0.01;
@@ -113,10 +116,10 @@ void myTimerFunc(int val)
 	glutTimerFunc(1,myTimerFunc,1);
 }
 
-/*æ„å»ºåå­—è½¨è¿¹çš„å‡½æ•°*/
+/*¹¹½¨Ãû×Ö¹ì¼£µÄº¯Êı*/
 void SetRC()
 {
-	//åˆå§‹åŒ–ä½ç½®å‘é‡
+	//³õÊ¼»¯Î»ÖÃÏòÁ¿
 	int j = 0;
 	for(int i=0; i<3; i++)
 	{
@@ -339,17 +342,48 @@ void SetRC()
 		g_pos[i][1] = -2;
 		g_pos[i][2] = 0;
 	}
+	float R=2,seta=0;
+	int midlast = POINTNUM/2-1;//µÚÒ»¶ÎµÄ×îºóÒ»¸öµã
+
+	CMatrix068 mat;
+	for(int i=0; i<POINTNUM; i++)
+	{
+		CVector068 dir;
+		float rotang = 0;
+		if(i!=POINTNUM-1&&i!=midlast)
+		{
+			dir = g_pos[(i+1)%POINTNUM]-g_pos[i];
+		}
+		else
+		{
+			dir = g_pos[i] - g_pos[(i+POINTNUM-1)%POINTNUM];
+		}
+		dir.Normalize();//·½Ïò
+		rotang = acos(dir.x);
+		if(dir.y<0) rotang = -rotang;
+		mat.SetRotate(rotang,2);//ÉèÖÃÎªĞı×ª¾ØÕó¡£
+		mat[12] = g_pos[i].x;	//ÉèÖÃÆ½ÒÆ²¿·Ö¡£
+		mat[13] = g_pos[i].y;
+		mat[14] = g_pos[i].z;
+		for(int j=0;j<CIRCLENUM;j++)
+		{
+			int index = i*CIRCLENUM+j;
+			g_allpos[index] = mat.posMul(g_circle[j]);
+		}
+	}
 
 	g_ballpos = g_pos[0];
 	g_balldir = g_pos[1]-g_pos[0];
 	g_balldir.Normalize();
 	glEnable(GL_DEPTH_TEST);
 }
-/*æ¥å—æŒ‰é”®çš„å‡½æ•°*/
+/*½ÓÊÜ°´¼üµÄº¯Êı*/
 void myKeyboardFunc(unsigned char key,int x, int y)
 {
 	switch(key)
 	{
+	case ' ':
+		g_mode=1-g_mode;
 	case '+':
 		g_ballspeed+=0.03;
 		break;
@@ -365,32 +399,205 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 	}
 }
 
-/*å¡«å……è½¨è¿¹ä¸Šæ¯ä¸ªç‚¹çš„å‡½æ•°*/
+/*»­»úÆ÷ÈË*/
+void DrawRobot(int type)
+{
+	float size=0.5;
+	//Í·
+	//glPushMatrix();
+	//glColor3f(1,1,0);
+	//glutSolidSphere(size*0.5,36,36);
+	//glPopMatrix();
+	glColor3f(1,0,0);
+	glPushMatrix();
+	glTranslatef(0,0,0);
+	glScalef(0.4,0.6,0.4);
+	glutSolidCube(size);
+	glPopMatrix();
+	//Éí×Ó
+	glColor3f(1,0,0);
+	glPushMatrix();
+	glTranslatef(0,-size,0);
+	glScalef(0.8,1,0.8);
+	glutSolidCube(size);
+	glPopMatrix();
+	//½£1
+	glColor3f(1,0.5,0);
+	glPushMatrix();
+	glTranslatef(-0.5,-size/1.5,0);
+	if(type==0)
+		glRotatef(-20,1,0,0);
+	else
+		glRotatef(20,1,0,0);
+	glScalef(0.2,2,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+	//½£2
+	glColor3f(1,0.5,0);
+	glPushMatrix();
+	glTranslatef(-0.5,-size/1.5,0);
+	if(type==0)
+		glRotatef(45,1,0,0);
+	else
+		glRotatef(-45,1,0,0);
+	glScalef(0.2,2,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+	//¸ì²²
+	glColor3f(0,1,0);
+	glPushMatrix();
+	glTranslatef(0,-size*0.7,-size*0.7);
+	if(type==0)
+		glRotatef(-45,0,0,1);
+	else
+		glRotatef(45,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+	//¸ì²²
+	glColor3f(0,1,0);
+	glPushMatrix();
+	//glTranslatef(size*0.7,-size*0.7,0);
+	glTranslatef(0,-size*0.7,size*0.7);
+	if(type==0)
+		glRotatef(45,0,0,1);
+	else
+		glRotatef(-45,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+
+	//ÍÈ
+	glColor3f(0,0,1);
+	glPushMatrix();
+	glTranslatef(0,-size*1.5,-size*0.2);
+	if(type==0)
+		glRotatef(10,0,0,1);
+	else
+		glRotatef(-10,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+	//ÍÈ
+	glColor3f(0,0,1);
+	glPushMatrix();
+	glTranslatef(0,-size*1.5,size*0.2);
+	if(type==0)
+		glRotatef(-10,0,0,1);
+	else
+		glRotatef(10,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+}
+
+/*ÏÔÊ¾Ã¿¸öµã*/
 void myDisplay(void)
 {
+	static int type=0;
+	float b = 0.0;
+	g_iCurFrame++;
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	glTranslatef(0,0,-20);
-	glRotatef(g_angle,0,1,0);
-	glColor3f(0.8,0,0);
+	glTranslatef(0,0,-25);
+	//glRotatef(g_angle,0,1,0);
+
+	CVector068 v1,v2,v3;
+	v1.Set(0,0,1);
+	v3.Set(0,1,0);
+	v2 = v1.crossMul(g_balldir);
+	float a = (v3.x*v2.x+v3.y*v2.y)/(sqrt(pow(v3.x,2)+pow(v3.y,2))*sqrt(pow(v2.x,2)+pow(v2.y,2)));
+	b = 180/3.14*acos(a);
 
 	glPushMatrix();
+	if(g_iCurFrame%20==0) type = 1-type;
 	glTranslatef(g_ballpos.x,g_ballpos.y,g_ballpos.z);
-	glutSolidSphere(0.5,36,36);
-	glPopMatrix();
-	glColor3f(0.5,0.4,0.1);
-	for(int i=0;i<POINTNUM;i++)
+	if(v2.x<0)
 	{
-		glPushMatrix();
-		glTranslatef(g_pos[i].x,g_pos[i].y,g_pos[i].z);
-		glutWireSphere(1,4,2);
-		glPopMatrix();
+		glRotatef(b,0,0,1);
 	}
+	else glRotatef(-b,0,0,1);
+	DrawRobot(type);
+	glPopMatrix();
+
+	if(g_mode==0)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+		glColor3f(0.5,0.4,0.1);
+		for(int i=0;i<POINTNUM;i++)
+		{
+			CVector068 dir;
+			float rotang = 0;
+			dir = g_pos[(i+1)%POINTNUM]-g_pos[i];
+			dir.Normalize();//·½Ïò
+			rotang = acos(dir.x)*180/3.14;
+			if(dir.y<0) rotang = -rotang;
+
+			if(change == 1){
+				glMatrixMode( GL_MODELVIEW );
+				glLoadIdentity();
+				CVector068 pos = g_ballpos + g_balldir*(-10);
+				gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
+			}
+
+			glPushMatrix();
+			glTranslatef(g_pos[i].x,g_pos[i].y,g_pos[i].z);
+			glRotatef(rotang,0,0,1);
+			glBegin(GL_LINE_STRIP);
+			for(int j=0;j<CIRCLENUM;j++)
+				glVertex3fv(g_circle[j]);
+			glEnd();
+			glPopMatrix();
+		}
+	}
+	else if(g_mode==1)
+	{
+		int midlast = POINTNUM/2-1;//µÚÒ»±Ê»­×îºóÒ»µã¡£
+		CMatrix068 mat;
+		float lastrotang = 0;
+
+		glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+		glBegin(GL_TRIANGLE_STRIP);
+
+		for(int i=0;i<POINTNUM-1;i++)
+		{
+			if(change == 1){
+				glMatrixMode( GL_MODELVIEW );
+				glLoadIdentity();
+				CVector068 pos = g_ballpos + g_balldir*(-10);
+				gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
+			}
+
+			if(i==midlast)//µÚÒ»±Ê»­½áÊø£¬µÚ¶ş±Ê»­¿ªÊ¼
+			{
+				glEnd();
+				glColor4f(0.1,0.1,0.1,0.5);
+				glBegin(GL_TRIANGLE_STRIP);
+			}
+			else
+			{
+				glColor3f(0.5,0.4,0.1);
+			}
+			for(int j=0;j<CIRCLENUM;j++)
+			{
+				int index1 = i*CIRCLENUM+j;
+				int index2 = index1+CIRCLENUM;
+				glVertex3fv(g_allpos[index1]);
+				glVertex3fv(g_allpos[index2]);
+			}
+		}
+		glEnd();
+	}
+
 	glPopMatrix();
 	glutSwapBuffers();
 }
 
-/*åˆ·æ–°æ˜¾ç¤ºçª—å£çš„å‡½æ•°*/
+/*Ë¢ĞÂÏÔÊ¾´°¿ÚµÄº¯Êı*/
 void myReshape(int w,int h)
 {
 	GLfloat nRange = 100.0f;
@@ -402,19 +609,19 @@ void myReshape(int w,int h)
 	glLoadIdentity();
 }
 
-/*ä¸»å‡½æ•°*/
+/*Ö÷º¯Êı*/
 int main(int argc, char *argv[])
 {
-    glutInit(&argc, argv);
+	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE| GLUT_DEPTH);
-    glutInitWindowPosition(100, 100);
-    glutInitWindowSize(400, 400);
-    glutCreateWindow("ç¬¬ä¸€ä¸ªOpenGLç¨‹åº");
-    glutDisplayFunc(&myDisplay);
+	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(400, 400);
+	glutCreateWindow("µÚÒ»¸öOpenGL³ÌĞò");
+	glutDisplayFunc(&myDisplay);
 	glutTimerFunc(1,myTimerFunc,2);
 	glutReshapeFunc(&myReshape);
 	glutKeyboardFunc(&myKeyboardFunc);
 	SetRC();
-    glutMainLoop();
-    return 0;
+	glutMainLoop();
+	return 0;
 }
