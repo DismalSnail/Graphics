@@ -171,6 +171,10 @@ CMatrix068 CMatrix068::GetInverse()//矩阵求逆
 	CMatrix068_T.m01=value01/value;CMatrix068_T.m11=value11/value;CMatrix068_T.m21=value21/value;CMatrix068_T.m31=value31/value;
 	CMatrix068_T.m02=value02/value;CMatrix068_T.m12=value12/value;CMatrix068_T.m22=value22/value;CMatrix068_T.m32=value32/value;
 	CMatrix068_T.m03=value03/value;CMatrix068_T.m13=value13/value;CMatrix068_T.m23=value23/value;CMatrix068_T.m33=value33/value;
-
+	for (int i = 0; i < 16; i++) {
+		if (CMatrix068_T[i]==0.0) {
+			CMatrix068_T[i]=0.0;
+		}
+	}
 	return CMatrix068_T;
 }
