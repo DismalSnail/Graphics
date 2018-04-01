@@ -138,7 +138,7 @@ void CMatrix068::SetRotate(float seta,CVector068 axis)	//设置旋转矩阵
 	 return value;
  }
 
-// CMatrix068 CMatrix068::GetInverse()//
-// {
-//
-// }
+CMatrix068 CMatrix068::GetInverse()//
+{
+
+}
