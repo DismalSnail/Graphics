@@ -125,20 +125,46 @@ void CMatrix068::SetRotate(float seta,CVector068 axis)	//设置旋转矩阵
 
  float CMatrix068::Inverse()//矩阵求逆
  {
-	 float value0;
-	 float value1;
-	 float value2;
-	 float value3;
+	 float value00;
+	 float value01;
+	 float value02;
+	 float value03;
 	 float value;
-	 value0=m11*m22*m33+m12*m23*m31+m21*m32*m13-m13*m22*m31-m21*m12*m33-m32*m23*m11;
-	 value1=m10*m22*m33+m12*m23*m30+m20*m32*m13-m13*m22*m30-m12*m20*m33-m23*m32*m10;
-	 value2=m10*m21*m33+m11*m23*m30+m20*m31*m13-m13*m21*m30-m20*m11*m33-m31*m23*m10;
-	 value3=m10*m21*m32+m11*m22*m30+m20*m31*m12-m12*m21*m30-m20*m11*m32-m22*m31*m10;
-	 value = m00*value0-m01*value1+m02*value2-m03*value3;
+	 value00=m11*m22*m33+m12*m23*m31+m21*m32*m13-m13*m22*m31-m21*m12*m33-m32*m23*m11;
+	 value01=m10*m22*m33+m12*m23*m30+m20*m32*m13-m13*m22*m30-m12*m20*m33-m23*m32*m10;
+	 value02=m10*m21*m33+m11*m23*m30+m20*m31*m13-m13*m21*m30-m20*m11*m33-m31*m23*m10;
+	 value03=m10*m21*m32+m11*m22*m30+m20*m31*m12-m12*m21*m30-m20*m11*m32-m22*m31*m10;
+	 value = m00*value00-m01*value01+m02*value02-m03*value03;
 	 return value;
  }
 
-CMatrix068 CMatrix068::GetInverse()//
+CMatrix068 CMatrix068::GetInverse()//矩阵求逆
 {
+	float value;
+	float value00;float value01;float value02;float value03;
+	float value10;float value11;float value12;float value13;
+	float value20;float value21;float value22;float value23;
+	float value30;float value31;float value32;float value33;
 
+	value00 = m11*m22*m33 + m12*m23*m31 + m21*m32*m13 - m13*m22*m31 - m21*m12*m33 - m32*m23*m11;
+	value01 = m10*m22*m33 + m12*m23*m30 + m20*m32*m13 - m13*m22*m30 - m12*m20*m33 - m23*m32*m10;
+	value02 = m10*m21*m33 + m11*m23*m30 + m20*m31*m13 - m13*m21*m30 - m20*m11*m33 - m31*m23*m10;
+	value03 = m10*m21*m32 + m11*m22*m30 + m20*m31*m12 - m12*m21*m30 - m20*m11*m32 - m22*m31*m10;
+
+	value10 = m01*m22*m33 + m02*m23*m31 + m21*m32*m03 - m03*m22*m31 - m21*m02*m33 - m32*m23*m01;
+	value11 = m10*m22*m33 + m12*m23*m30 + m20*m32*m13 - m13*m22*m30 - m12*m20*m33 - m23*m32*m10;
+	value12 = m10*m21*m33 + m11*m23*m30 + m20*m31*m13 - m13*m21*m30 - m20*m11*m33 - m31*m23*m10;
+	value13 = m10*m21*m32 + m11*m22*m30 + m20*m31*m12 - m12*m21*m30 - m20*m11*m32 - m22*m31*m10;
+
+	value20 = m11*m22*m33 + m12*m23*m31 + m21*m32*m13 - m13*m22*m31 - m21*m12*m33 - m32*m23*m11;
+	value21 = m10*m22*m33 + m12*m23*m30 + m20*m32*m13 - m13*m22*m30 - m12*m20*m33 - m23*m32*m10;
+	value22 = m10*m21*m33 + m11*m23*m30 + m20*m31*m13 - m13*m21*m30 - m20*m11*m33 - m31*m23*m10;
+	value23 = m10*m21*m32 + m11*m22*m30 + m20*m31*m12 - m12*m21*m30 - m20*m11*m32 - m22*m31*m10;
+
+	value30 = m11*m22*m33 + m12*m23*m31 + m21*m32*m13 - m13*m22*m31 - m21*m12*m33 - m32*m23*m11;
+	value31 = m10*m22*m33 + m12*m23*m30 + m20*m32*m13 - m13*m22*m30 - m12*m20*m33 - m23*m32*m10;
+	value32 = m10*m21*m33 + m11*m23*m30 + m20*m31*m13 - m13*m21*m30 - m20*m11*m33 - m31*m23*m10;
+	value33 = m10*m21*m32 + m11*m22*m30 + m20*m31*m12 - m12*m21*m30 - m20*m11*m32 - m22*m31*m10;
+
+	value=
 }
