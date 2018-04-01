@@ -41,7 +41,7 @@
     <ClCompile Include="Matrix068.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tuxingxue3.cpp">
+    <ClCompile Include="Graphics.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

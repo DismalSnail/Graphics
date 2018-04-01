@@ -57,10 +57,10 @@ CMatrix068 CMatrix068::operator*(CMatrix068& p)//矩阵相乘
 		CMatrix068_T.m22=m20*p.m02+m21*p.m12+m22*p.m22+m23*p.m32;
 		CMatrix068_T.m32=m30*p.m02+m31*p.m12+m32*p.m22+m33*p.m32;
 
-		CMatrix068_T.m03=m00*p.m30+m01*p.m31+m02*p.m32+m03*p.m33;
-		CMatrix068_T.m13=m10*p.m30+m11*p.m31+m12*p.m32+m13*p.m33;
-		CMatrix068_T.m23=m20*p.m30+m21*p.m31+m22*p.m32+m23*p.m33;
-		CMatrix068_T.m33=m30*p.m30+m31*p.m31+m32*p.m32+m33*p.m33;
+		CMatrix068_T.m03=m00*p.m03+m01*p.m13+m02*p.m23+m03*p.m33;
+		CMatrix068_T.m13=m10*p.m03+m11*p.m13+m12*p.m23+m13*p.m33;
+		CMatrix068_T.m23=m20*p.m03+m21*p.m13+m22*p.m23+m23*p.m33;
+		CMatrix068_T.m33=m30*p.m03+m31*p.m13+m32*p.m23+m33*p.m33;
 
 		return CMatrix068_T;
 }
