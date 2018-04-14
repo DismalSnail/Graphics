@@ -1,6 +1,5 @@
 #include "StdAfx.h"
-#include <math.h>
-#include "Vector068.h"
+
 
 
 CVector068::CVector068(void)
@@ -145,4 +144,25 @@ CVector068 operator*(float n,CVector068 &p)
 	CVector068_T.y = p.y * n;
 	CVector068_T.z = p.z * n;
 	return CVector068_T;
+}
+
+//************************************
+// Method:    ToEuler
+// FullName:  CVector068::ToEuler
+// Access:    public 
+// Returns:   CEuler
+// Qualifier:
+//************************************
+CEuler CVector068::ToEuler()
+{
+	CEuler CEuler_T;
+	float cseta1;
+	cseta1=-z/(sqrt(x*x+z*z));
+	CEuler_T.h=acos(cseta1)*180/PI;
+	if(x>0) CEuler_T.h=-CEuler_T.h;
+	cseta1=(x*x+z*z)/(sqrt(x*x+y*y+z*z)*sqrt(x*x+z*z));
+	CEuler_T.p=acos(cseta1)*180/PI;
+	if(y<0) CEuler_T.p=-CEuler_T.p;
+	CEuler_T.b=0.0;
+	return CEuler_T;
 }

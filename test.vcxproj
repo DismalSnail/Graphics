@@ -78,19 +78,23 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Euler.h" />
     <ClInclude Include="Matrix068.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vector068.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Euler.cpp" />
     <ClCompile Include="Matrix068.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="Vector068.cpp" />
+    <ClCompile Include="work4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

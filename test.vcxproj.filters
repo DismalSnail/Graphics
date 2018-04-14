@@ -30,6 +30,12 @@
     <ClInclude Include="Matrix068.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Euler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -41,7 +47,13 @@
     <ClCompile Include="Matrix068.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="Euler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="work4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

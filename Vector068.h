@@ -1,4 +1,9 @@
 #pragma once
+
+class CEuler;
+class CVector068;
+class CMatrix068;
+
 class CVector068
 {
 public:
@@ -19,6 +24,9 @@ public:
 	void Normalize();									//向量标准化
 	float len();										//向量求模
 	CVector068 project(CVector068 &n);					//向量投影操作
+
+	CEuler CVector068::ToEuler();//向量转欧拉角
+
 
 	operator float*(){return &x;}							//自动转换类型
 	CVector068(void);

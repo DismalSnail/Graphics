@@ -1,5 +1,9 @@
 #pragma once
-#include "Vector068.h"
+
+
+class CQuaternion;
+class CEuler;
+class CVector068;
 class CMatrix068
 {
 public:
@@ -37,5 +41,8 @@ public:
 
 	CMatrix068 GetInverse();//返回逆矩阵
 
+	CEuler CMatrix068::ToEuler();//矩阵转换为欧拉角
+
+	CQuaternion CMatrix068::ToQuaternion();//矩阵转换为四元数
 
 };

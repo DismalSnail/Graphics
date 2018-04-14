@@ -1,15 +1,9 @@
 ﻿// 001.cpp : Defines the entry point for the console application.
 //
-
 #include "stdafx.h"
-#include "Vector068.h"
-#include "Matrix068.h"
-#include "math.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include <GL/glut.h>
-#include <iostream>
+
 using namespace std;
+
 void myDisplay(void);
 int g_iCurFrame=0;
 int g_mode = 0;
@@ -103,14 +97,13 @@ void update()
 			g_ballindex=-1;
 		}
 	}
-	cout << g_ballpos.x<<" "<< g_ballpos.y <<" "<<g_ballpos.z << endl;
-	cout << g_ballspeed1 <<endl;
+
 }
 
 /*刷新函数*/
 void myTimerFunc(int val)
 {
-	g_angle+=0.01;
+	g_angle+=0.1;
 	update();
 	myDisplay();
 	glutTimerFunc(1,myTimerFunc,1);
@@ -396,6 +389,12 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 	case '+':
 		g_ballspeed+=0.03;
 		break;
+	case '=':
+		g_ballspeed+=0.03;
+		break;
+	case '_':
+		g_ballspeed-=0.03;
+		break;
 	case '-':
 		g_ballspeed -= 0.03;
 		break;
@@ -415,10 +414,7 @@ void DrawRobot(int type)
 {
 	float size=0.5;
 	//头
-	//glPushMatrix();
-	//glColor3f(1,1,0);
-	//glutSolidSphere(size*0.5,36,36);
-	//glPopMatrix();
+
 	glColor3f(1,0,0);
 	glPushMatrix();
 	glTranslatef(0,0,0);
@@ -432,28 +428,7 @@ void DrawRobot(int type)
 	glScalef(0.8,1,0.8);
 	glutSolidCube(size);
 	glPopMatrix();
-	//剑1
-	glColor3f(1,0.5,0);
-	glPushMatrix();
-	glTranslatef(-0.5,-size/1.5,0);
-	if(type==0)
-		glRotatef(-20,1,0,0);
-	else
-		glRotatef(20,1,0,0);
-	glScalef(0.2,2,0.2);
-	glutSolidCube(size);
-	glPopMatrix();
-	//剑2
-	glColor3f(1,0.5,0);
-	glPushMatrix();
-	glTranslatef(-0.5,-size/1.5,0);
-	if(type==0)
-		glRotatef(45,1,0,0);
-	else
-		glRotatef(-45,1,0,0);
-	glScalef(0.2,2,0.2);
-	glutSolidCube(size);
-	glPopMatrix();
+
 	//胳膊
 	glColor3f(0,1,0);
 	glPushMatrix();
@@ -575,7 +550,7 @@ void myDisplay(void)
 
 		for(int i=0;i<POINTNUM-1;i++)
 		{
-			if(i==midlast)//��һ�ʻ��������ڶ��ʻ���ʼ
+			if(i==midlast)//
 			{
 				glEnd();
 				glColor4f(0.1,0.1,0.1,0.5);

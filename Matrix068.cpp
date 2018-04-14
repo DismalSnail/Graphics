@@ -1,6 +1,5 @@
-﻿#include "StdAfx.h"
-#include "Matrix068.h"
-#include <math.h>
+﻿#include "stdafx.h"
+
 #define Pi 3.1415926
 CMatrix068::CMatrix068(void)
 {
@@ -12,6 +11,14 @@ CMatrix068::~CMatrix068(void)
 {
 }
 
+//************************************
+// Method:    Set
+// FullName:  CMatrix068::Set
+// Access:    public
+// Returns:   void
+// Qualifier: /*设置矩阵16个元素 */
+// Parameter: float * p
+//************************************
 void CMatrix068::Set(float *p)	//设置矩阵16个元素
 {
 	this->m00=p[0];this->m10=p[1];this->m20=p[2];this->m30=p[3];
@@ -20,6 +27,14 @@ void CMatrix068::Set(float *p)	//设置矩阵16个元素
 	this->m03=p[12];this->m13=p[13];this->m23=p[14];this->m33=p[15];
 }
 
+//************************************
+// Method:    operator=
+// FullName:  CMatrix068::operator=
+// Access:    public
+// Returns:   CMatrix068&
+// Qualifier: /*矩阵赋值 */
+// Parameter: const CMatrix068 & p
+//************************************
 CMatrix068& CMatrix068::operator=(const CMatrix068& p)//矩阵赋值
 {
 	m00=p.m00;m10=p.m10;m20=p.m20;m30=p.m30;
@@ -29,6 +44,14 @@ CMatrix068& CMatrix068::operator=(const CMatrix068& p)//矩阵赋值
 	return *this;
 }
 
+//************************************
+// Method:    operator*
+// FullName:  CMatrix068::operator*
+// Access:    public
+// Returns:   CMatrix068
+// Qualifier: /*矩阵数乘 */
+// Parameter: float d
+//************************************
 CMatrix068 CMatrix068::operator*(float d)//矩阵数乘
 {
 	CMatrix068 CMatrix068_T;
@@ -65,6 +88,14 @@ CMatrix068 CMatrix068::operator*(CMatrix068& p)//矩阵相乘
 		return CMatrix068_T;
 }
 
+//************************************
+// Method:    vecMul
+// FullName:  CMatrix068::vecMul
+// Access:    public
+// Returns:   CVector068
+// Qualifier: /*矩阵乘向量 */
+// Parameter: CVector068 & p
+//************************************
 CVector068 CMatrix068::vecMul(CVector068& p) //矩阵乘向量
 {
 		CVector068 CVector068_T;
@@ -205,4 +236,93 @@ CMatrix068& CMatrix068::SetRotate(float seta,int axis)//0表示x轴旋转，1表
 		m30=0;m31=0;m32=0;m33=1;
 	}
 	return *this;
+}
+
+//************************************
+// Method:    ToEuler
+// FullName:  CMatrix068::ToEuler
+// Access:    public
+// Returns:   CEuler
+// Qualifier:
+//************************************
+CEuler CMatrix068::ToEuler()
+{
+	CEuler CEU;
+	float p;
+	float h;
+	float b;
+	h=atan2(m02,m22)*180/PI;
+	p=asin(-m12)*180/PI;
+	b=atan2(m10,m11)*180/PI;
+	if (abs(cos(asin(-m12))-0)<0.0005)
+	{
+		h=atan2(-m20,m00)*180/PI;
+		b=0;
+	}
+	if (h > 180)
+	{
+		h-=360;
+	}
+	if (h<-180)
+	{
+		h+=360;
+	}
+	if (p>90)
+	{
+		p-=180;
+	}
+	if (p<-90)
+	{
+		p+=180;
+	}
+	CEU.h=h;
+	CEU.p=p;
+	CEU.b=b;
+	return CEU;
+}
+
+
+//************************************
+// Method:    ToQuaternion
+// FullName:  CMatrix068::ToQuaternion
+// Access:    public
+// Returns:   CQuaternion
+// Qualifier:
+//************************************
+CQuaternion CMatrix068::ToQuaternion()
+{
+	CQuaternion CQU;
+	float w=sqrt(m00+m11+m22+1)/2;
+	float x=sqrt(m00-m11-m22+1)/2;
+	float y=sqrt(-m00+m11-m22+1)/2;
+	float z=sqrt(-m00-m11+m22+1)/2;
+	if (w >=x && w >= y && w >= z)
+	{
+		x=(m21-m12)/(4*w);
+		y=(m02-m20)/(4*w);
+		z=(m10-m01)/(4*w);
+	}
+	if (x >=w && x >= y && x >= z)
+	{
+		x=(m21-m12)/(4*x);
+		y=(m10+m01)/(4*x);
+		z=(m02+m20)/(4*x);
+	}
+	if (y >=x && y >= w && y >= z)
+	{
+		x=(m02-m20)/(4*y);
+		y=(m10+m01)/(4*y);
+		z=(m21+m12)/(4*y);
+	}
+	if (z >=x && z >= y && z >= w)
+	{
+		x=(m10-m01)/(4*z);
+		y=(m02+m21)/(4*z);
+		z=(m21+m12)/(4*z);
+	}
+	CQU.x=x;
+	CQU.y=y;
+	CQU.z=z;
+	CQU.w=w;
+	return CQU;
 }
