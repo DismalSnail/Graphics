@@ -12,7 +12,10 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <math.h>
-
+#include <string>
+#include <vector>
+#include <fstream>
+#include <iomanip>
 
 #include "Euler.h"
 #include "Vector068.h"

@@ -1,11 +1,17 @@
-﻿生成启动时间为 2018/4/15 13:28:49。
+﻿生成启动时间为 2018/4/15 16:06:42。
      1>项目“C:\Users\10310\documents\visual studio 2010\Projects\test\test\test.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
-         正在对“Debug\test.unsuccessfulbuild”执行 Touch 任务。
+         正在创建“Debug\test.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
          所有输出均为最新。
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\test.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt work4.cpp
          work4.cpp
+     1>c:\users\10310\documents\visual studio 2010\projects\test\test\work4.cpp(13): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : 参见“strtok”的声明
+     1>c:\users\10310\documents\visual studio 2010\projects\test\test\work4.cpp(17): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : 参见“sscanf”的声明
+     1>c:\users\10310\documents\visual studio 2010\projects\test\test\work4.cpp(19): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : 参见“strtok”的声明
        ManifestResourceCompile:
          所有输出均为最新。
        Link:
@@ -34,4 +40,4 @@
 
 生成成功。
 
-已用时间 00:00:01.17
+已用时间 00:00:01.63
