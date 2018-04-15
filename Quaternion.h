@@ -24,12 +24,13 @@ public:
 	float dotMul(const CQuaternion&p);				//点乘
 	float len();									//求模
 	CQuaternion Normalize();								//求标准化
-	CQuaternion& Inverse();							//求逆四元数,会改变自身。
+	void Inverse();							//求逆四元数,会改变自身。
 	CQuaternion GetInverse();						//求逆四元数,不改变自身，生成新的四元数
 	CQuaternion Div(const CQuaternion&b);			//求差 当前为a,求c=a-b
 	void GetAngle(float& angle,CVector068& axis);	//求旋转轴和角度
-	CQuaternion Slerp(const CQuaternion& Vend,float t);					   //插值。从当前四元数插值到Vend四元数,t是参数[0,1]
-	void Slerp(const CQuaternion& Vend,int n,float *t,CQuaternion *Result);//插值。一次插值出n个数据。插值参数保存在数组t中，结果返回到数组Result中。
+	CQuaternion Slerp(CQuaternion& Vend,float t);					   //插值。从当前四元数插值到Vend四元数,t是参数[0,1]
+	void Slerp(CQuaternion& Vend,int n,float *t,CQuaternion *Result);//插值。一次插值出n个数据。插值参数保存在数组t中，结果返回到数组Result中。
+	CQuaternion power(float n); //求幂
 
 };
 

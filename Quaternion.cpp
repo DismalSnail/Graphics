@@ -185,6 +185,13 @@ float CQuaternion::len()
 	return sqrt(z*z+y*y+x*x+w*w);
 }
 
+//************************************
+// Method:    Normalize
+// FullName:  CQuaternion::Normalize
+// Access:    public 
+// Returns:   CQuaternion
+// Qualifier:
+//************************************
 CQuaternion CQuaternion::Normalize()
 {
 	CQuaternion CQU;
@@ -196,14 +203,15 @@ CQuaternion CQuaternion::Normalize()
 	return CQU;
 }
 
+
 //************************************
 // Method:    Inverse
 // FullName:  CQuaternion::Inverse
-// Access:    public
-// Returns:   CQuaternion&
+// Access:    public 
+// Returns:   void
 // Qualifier:
 //************************************
-CQuaternion& CQuaternion::Inverse()
+void CQuaternion::Inverse()
 {
 	float len2=z*z+y*y+x*x+w*w;
 	z=-z;
@@ -213,7 +221,6 @@ CQuaternion& CQuaternion::Inverse()
 	z=z/len2;
 	x=x/len2;
 	y=y/len2;
-	return *this;
 }
 
 //************************************
@@ -281,4 +288,71 @@ void CQuaternion::GetAngle(float& angle,CVector068& axis)
 	axis.z=CQU.z/sin(angle);
 
 	angle=2*angle*180/PI;
+}
+
+
+//************************************
+// Method:    Slerp
+// FullName:  CQuaternion::Slerp
+// Access:    public 
+// Returns:   CQuaternion
+// Qualifier:
+// Parameter: const CQuaternion & Vend
+// Parameter: float t
+//************************************
+CQuaternion CQuaternion::Slerp(CQuaternion& Vend,float t)
+{
+	CQuaternion CQU;
+	CQuaternion CQU1;
+	Vend=Vend.Normalize();
+	CQuaternion T;
+	CQU.w=w;CQU.x=x;CQU.y=y;CQU.z=z;
+	CQU=CQU.Normalize();
+	CQU1=CQU.GetInverse();
+	T=CQU1*Vend;
+	CQU1=T.power(t);
+	CQU=CQU*CQU1;
+	return CQU;
+
+}
+
+//************************************
+// Method:    power
+// FullName:  CQuaternion::power
+// Access:    public 
+// Returns:   CQuaternion
+// Qualifier:
+// Parameter: const CQuaternion & b
+//************************************
+CQuaternion CQuaternion::power(float n)
+{
+	float seta;
+	seta=acos(w);
+	CQuaternion CQU;
+	CQU.w=cos(n*seta);
+	CQU.x=x/sin(seta)*sin(n*seta);
+	CQU.y=y/sin(seta)*sin(n*seta);
+	CQU.z=z/sin(seta)*sin(n*seta);
+	return CQU;
+}
+
+//************************************
+// Method:    Slerp
+// FullName:  CQuaternion::Slerp
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: const CQuaternion & Vend
+// Parameter: int n
+// Parameter: float * t
+// Parameter: CQuaternion * Result
+//************************************
+void CQuaternion::Slerp( CQuaternion& Vend,int n,float *t,CQuaternion *Result)
+{
+	//CQuaternion CQU;
+	//CQU.w=w;CQU.x=x;CQU.y=y;CQU.z=z;
+	for (int i=0;i<n;i++)
+	{
+		Result[i]=this->Slerp(Vend,t[i]);
+	}
 }
