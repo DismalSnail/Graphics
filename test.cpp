@@ -1,8 +1,7 @@
-﻿// 001.cpp : Defines the entry point for the console application.
-//
+﻿﻿// test.cpp : Defines the entry point for the console application.
 #include "stdafx.h"
 
-using namespace std;
+	using namespace std;
 
 void myDisplay(void);
 int g_iCurFrame=0;
@@ -19,6 +18,15 @@ float g_ballspeed = 0.06;//球的速度
 float g_ballspeed1 = 0;
 int g_ballindex;//当前球所在的曲线节点位置
 int change=0;//视点控制
+
+//视点位置和方向
+float mx=0,my=5,mz=10,rx=-25,ry=0,rz=0;//平移和旋转
+float sx=1,sy=1,sz=1;//缩放
+float mspeed=1,rspeed=1;
+float g_IEyeMat[16]={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1},g_EyeMat[16]={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+int mode=0;
+//////////////////////////////////////////////////////////////////////////
+
 void update()
 {
 
@@ -100,14 +108,194 @@ void update()
 
 }
 
+/*画机器人*/
+void DrawRobot(int type)
+{
+	float size=0.5;
+	//头
+
+	glColor3f(1,0,0);
+	glPushMatrix();
+	glTranslatef(0,0,0);
+	glScalef(0.4,0.6,0.4);
+	glutSolidCube(size);
+	glPopMatrix();
+	//身子
+	glColor3f(1,0,0);
+	glPushMatrix();
+	glTranslatef(0,-size,0);
+	glScalef(0.8,1,0.8);
+	glutSolidCube(size);
+	glPopMatrix();
+
+	//胳膊
+	glColor3f(0,1,0);
+	glPushMatrix();
+	glTranslatef(0,-size*0.7,-size*0.7);
+	if(type==0)
+		glRotatef(-45,0,0,1);
+	else
+		glRotatef(45,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+	//胳膊
+	glColor3f(0,1,0);
+	glPushMatrix();
+	//glTranslatef(size*0.7,-size*0.7,0);
+	glTranslatef(0,-size*0.7,size*0.7);
+	if(type==0)
+		glRotatef(45,0,0,1);
+	else
+		glRotatef(-45,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+
+	//腿
+	glColor3f(0,0,1);
+	glPushMatrix();
+	glTranslatef(0,-size*1.5,-size*0.2);
+	if(type==0)
+		glRotatef(10,0,0,1);
+	else
+		glRotatef(-10,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+	//腿
+	glColor3f(0,0,1);
+	glPushMatrix();
+	glTranslatef(0,-size*1.5,size*0.2);
+	if(type==0)
+		glRotatef(-10,0,0,1);
+	else
+		glRotatef(10,0,0,1);
+	glTranslatef(0,-size*0.5,0);
+	glScalef(0.2,1,0.2);
+	glutSolidCube(size);
+	glPopMatrix();
+}
+
+void RenderWorld()
+{
+	static int type=0;
+	float b = 0.0;
+	g_iCurFrame++;
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+	glPushMatrix();
+
+	glTranslatef(0,0,-25);
+	glRotatef(g_angle,0,1,0);
+	CVector068 v1,v2,v3;
+	v1.Set(0,0,1);
+	v3.Set(0,1,0);
+	v2 = v1.crossMul(g_balldir);
+	float a = (v3.x*v2.x+v3.y*v2.y)/(sqrt(pow(v3.x,2)+pow(v3.y,2))*sqrt(pow(v2.x,2)+pow(v2.y,2)));
+	b = 180/3.14*acos(a);
+	if(change == 1){
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
+		CVector068 pos = g_ballpos + g_balldir*(-10);
+		gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
+	}
+
+	glPushMatrix();
+	if(g_iCurFrame%20==0) type = 1-type;
+	glTranslatef(g_ballpos.x,g_ballpos.y,g_ballpos.z);
+	if(v2.x<0)
+	{
+		glRotatef(b,0,0,1);
+	}
+	else glRotatef(-b,0,0,1);
+	DrawRobot(type);
+	glPopMatrix();
+
+	if(g_mode==0)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+		glColor3f(0.5,0.4,0.1);
+		for(int i=0;i<POINTNUM;i++)
+		{
+			CVector068 dir;
+			float rotang = 0;
+			dir = g_pos[(i+1)%POINTNUM]-g_pos[i];
+			dir.Normalize();//
+			rotang = acos(dir.x)*180/3.14;
+			if(dir.y<0) rotang = -rotang;
+
+			glPushMatrix();
+			glTranslatef(g_pos[i].x,g_pos[i].y,g_pos[i].z);
+			glRotatef(rotang,0,0,1);
+			glBegin(GL_LINE_STRIP);
+			for(int j=0;j<CIRCLENUM;j++)
+				glVertex3fv(g_circle[j]);
+			glEnd();
+			glPopMatrix();
+		}
+	}
+	else if(g_mode==1)
+	{
+		int midlast = POINTNUM/2-1;//
+		CMatrix068 mat;
+		float lastrotang = 0;
+
+		glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+		glBegin(GL_TRIANGLE_STRIP);
+
+		for(int i=0;i<POINTNUM-1;i++)
+		{
+			if(i==midlast)//
+			{
+				glEnd();
+				glColor4f(0.1,0.1,0.1,0.5);
+				glBegin(GL_TRIANGLE_STRIP);
+			}
+			else
+			{
+				glColor3f(0.5,0.4,0.1);
+			}
+			for(int j=0;j<CIRCLENUM;j++)
+			{
+				int index1 = i*CIRCLENUM+j;
+				int index2 = index1+CIRCLENUM;
+				glVertex3fv(g_allpos[index1]);
+				glVertex3fv(g_allpos[index2]);
+			}
+		}
+		glEnd();
+	}
+
+	glPopMatrix();
+}
+
 /*刷新函数*/
 void myTimerFunc(int val)
 {
-	g_angle+=0.1;
 	update();
 	myDisplay();
-	glutTimerFunc(1,myTimerFunc,1);
+	glutTimerFunc(1,myTimerFunc,0);
 }
+
+void SetView()
+{
+	if(mode==0)
+	{
+		glLoadMatrixf(g_EyeMat);
+	}
+	else
+	{
+		glRotatef(-rz,0,0,1);
+		glRotatef(-rx,1,0,0);
+		glRotatef(-ry,0,1,0);
+		glTranslatef(-mx,-my,-mz);
+	}
+}
+
 
 /*构建名字轨迹的函数*/
 void SetRC()
@@ -382,195 +570,287 @@ void SetRC()
 /*接受按键的函数*/
 void myKeyboardFunc(unsigned char key,int x, int y)
 {
+	bool bChange=false;
 	switch(key)
 	{
-	case ' ':
-		g_mode=1-g_mode;
-	case '+':
-		g_ballspeed+=0.03;
+	case 'w':
+		//my+=mspeed;
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslatef(0,-mspeed,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			mx+=g_IEyeMat[4]*mspeed;
+			my+=g_IEyeMat[5]*mspeed;
+			mz+=g_IEyeMat[6]*mspeed;
+		}
 		break;
-	case '=':
-		g_ballspeed+=0.03;
+	case 's':
+		//my-=mspeed;
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslatef(0,mspeed,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			mx-=g_IEyeMat[4]*mspeed;
+			my-=g_IEyeMat[5]*mspeed;
+			mz-=g_IEyeMat[6]*mspeed;
+		}
+
 		break;
-	case '_':
-		g_ballspeed-=0.03;
+	case 'a':
+		//mx-=mspeed;
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslatef(mspeed,0,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			mx-=g_IEyeMat[0]*mspeed;
+			my-=g_IEyeMat[1]*mspeed;
+			mz-=g_IEyeMat[2]*mspeed;
+		}
+
 		break;
-	case '-':
-		g_ballspeed -= 0.03;
+	case 'd':
+		//mx+=mspeed;
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslatef(-mspeed,0,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			mx+=g_IEyeMat[0]*mspeed;
+			my+=g_IEyeMat[1]*mspeed;
+			mz+=g_IEyeMat[2]*mspeed;
+		}
+
+		break;
+	case 'q':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslatef(0,0,mspeed);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			mx-=g_IEyeMat[8]*mspeed;
+			my-=g_IEyeMat[9]*mspeed;
+			mz-=g_IEyeMat[10]*mspeed;
+		}
+		//mz-=mspeed;
+
+		break;
+	case 'e':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslatef(0,0,-mspeed);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			mx+=g_IEyeMat[8]*mspeed;
+			my+=g_IEyeMat[9]*mspeed;
+			mz+=g_IEyeMat[10]*mspeed;
+		}
+		//mz+=mspeed;
+
+		break;
+	case 'i':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glRotatef(-rspeed,1,0,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			rx+=rspeed;
+			bChange = true;
+		}
+		break;
+	case 'k':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glRotatef(rspeed,1,0,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			rx-=rspeed;
+			bChange = true;
+		}
+
+		break;
+	case 'j':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glRotatef(-rspeed,0,1,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			ry+=rspeed;
+			bChange = true;
+		}
+
+		break;
+	case 'l':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glRotatef(rspeed,0,1,0);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			ry-=rspeed;
+			bChange = true;
+		}
+
+		break;
+	case 'u':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glRotatef(rspeed,0,0,1);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			rz+=rspeed;
+			bChange = true;
+		}
+
+		break;
+	case 'o':
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glRotatef(-rspeed,0,0,1);
+			glMultMatrixf(g_EyeMat);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		else
+		{
+			rz-=rspeed;
+			bChange = true;
+		}
+
 		break;
 	case '1':
 		change=1-change;
+		break;
+	case '2':
+		sx-=0.1;
+		break;
+	case '3':
+		sy+=0.1;
+		break;
+	case '4':
+		sy-=0.1;
+		break;
+	case '5':
+		sz+=0.1;
+		break;
+	case '6':
+		sz-=0.1;
+		break;
 	case '0':
-		g_ballpos = g_pos[0];
-		g_balldir = g_pos[1]-g_pos[0];
-		g_balldir.Normalize();
-		g_ballindex=0;
+		mode = 1-mode;
+		if(mode==0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glRotatef(-rz,0,0,1);
+			glRotatef(-rx,1,0,0);
+			glRotatef(-ry,0,1,0);
+			glTranslatef(-mx,-my,-mz);
+			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+			glPopMatrix();
+		}
+		printf("mode:%d\n",mode);
+		break;
+	case '=':
+		mspeed*=1.1;
+		printf("mspeed:%.1f\n",mspeed);
+		break;
+	case '-':
+		mspeed*=0.9;
+		printf("mspeed:%.1f\n",mspeed);
+		break;
+	case ' ':
+		g_mode=1-g_mode;
 		break;
 	}
-}
-
-/*画机器人*/
-void DrawRobot(int type)
-{
-	float size=0.5;
-	//头
-
-	glColor3f(1,0,0);
-	glPushMatrix();
-	glTranslatef(0,0,0);
-	glScalef(0.4,0.6,0.4);
-	glutSolidCube(size);
-	glPopMatrix();
-	//身子
-	glColor3f(1,0,0);
-	glPushMatrix();
-	glTranslatef(0,-size,0);
-	glScalef(0.8,1,0.8);
-	glutSolidCube(size);
-	glPopMatrix();
-
-	//胳膊
-	glColor3f(0,1,0);
-	glPushMatrix();
-	glTranslatef(0,-size*0.7,-size*0.7);
-	if(type==0)
-		glRotatef(-45,0,0,1);
-	else
-		glRotatef(45,0,0,1);
-	glTranslatef(0,-size*0.5,0);
-	glScalef(0.2,1,0.2);
-	glutSolidCube(size);
-	glPopMatrix();
-	//胳膊
-	glColor3f(0,1,0);
-	glPushMatrix();
-	//glTranslatef(size*0.7,-size*0.7,0);
-	glTranslatef(0,-size*0.7,size*0.7);
-	if(type==0)
-		glRotatef(45,0,0,1);
-	else
-		glRotatef(-45,0,0,1);
-	glTranslatef(0,-size*0.5,0);
-	glScalef(0.2,1,0.2);
-	glutSolidCube(size);
-	glPopMatrix();
-
-	//腿
-	glColor3f(0,0,1);
-	glPushMatrix();
-	glTranslatef(0,-size*1.5,-size*0.2);
-	if(type==0)
-		glRotatef(10,0,0,1);
-	else
-		glRotatef(-10,0,0,1);
-	glTranslatef(0,-size*0.5,0);
-	glScalef(0.2,1,0.2);
-	glutSolidCube(size);
-	glPopMatrix();
-	//腿
-	glColor3f(0,0,1);
-	glPushMatrix();
-	glTranslatef(0,-size*1.5,size*0.2);
-	if(type==0)
-		glRotatef(-10,0,0,1);
-	else
-		glRotatef(10,0,0,1);
-	glTranslatef(0,-size*0.5,0);
-	glScalef(0.2,1,0.2);
-	glutSolidCube(size);
-	glPopMatrix();
+	if(bChange)//计算视点矩阵的逆矩阵
+	{
+		glPushMatrix();
+		glLoadIdentity();
+		glRotatef(ry,0,1,0);
+		glRotatef(rx,1,0,0);
+		glRotatef(rz,0,0,1);
+		glGetFloatv(GL_MODELVIEW_MATRIX,g_IEyeMat);
+		glPopMatrix();
+	}
 }
 
 /*显示每个点*/
 void myDisplay(void)
 {
-	static int type=0;
-	float b = 0.0;
-	g_iCurFrame++;
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	glTranslatef(0,0,-25);
-	glRotatef(g_angle,0,1,0);
-
-	CVector068 v1,v2,v3;
-	v1.Set(0,0,1);
-	v3.Set(0,1,0);
-	v2 = v1.crossMul(g_balldir);
-	float a = (v3.x*v2.x+v3.y*v2.y)/(sqrt(pow(v3.x,2)+pow(v3.y,2))*sqrt(pow(v2.x,2)+pow(v2.y,2)));
-	b = 180/3.14*acos(a);
-	if(change == 1){
-		glMatrixMode( GL_MODELVIEW );
-		glLoadIdentity();
-		CVector068 pos = g_ballpos + g_balldir*(-10);
-		gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
-	}
-
-	glPushMatrix();
-	if(g_iCurFrame%20==0) type = 1-type;
-	glTranslatef(g_ballpos.x,g_ballpos.y,g_ballpos.z);
-	if(v2.x<0)
-	{
-		glRotatef(b,0,0,1);
-	}
-	else glRotatef(-b,0,0,1);
-	DrawRobot(type);
-	glPopMatrix();
-
-	if(g_mode==0)
-	{
-		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-		glColor3f(0.5,0.4,0.1);
-		for(int i=0;i<POINTNUM;i++)
-		{
-			CVector068 dir;
-			float rotang = 0;
-			dir = g_pos[(i+1)%POINTNUM]-g_pos[i];
-			dir.Normalize();//
-			rotang = acos(dir.x)*180/3.14;
-			if(dir.y<0) rotang = -rotang;
-
-			glPushMatrix();
-			glTranslatef(g_pos[i].x,g_pos[i].y,g_pos[i].z);
-			glRotatef(rotang,0,0,1);
-			glBegin(GL_LINE_STRIP);
-			for(int j=0;j<CIRCLENUM;j++)
-				glVertex3fv(g_circle[j]);
-			glEnd();
-			glPopMatrix();
-		}
-	}
-	else if(g_mode==1)
-	{
-		int midlast = POINTNUM/2-1;//
-		CMatrix068 mat;
-		float lastrotang = 0;
-
-		glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-		glBegin(GL_TRIANGLE_STRIP);
-
-		for(int i=0;i<POINTNUM-1;i++)
-		{
-			if(i==midlast)//
-			{
-				glEnd();
-				glColor4f(0.1,0.1,0.1,0.5);
-				glBegin(GL_TRIANGLE_STRIP);
-			}
-			else
-			{
-				glColor3f(0.5,0.4,0.1);
-			}
-			for(int j=0;j<CIRCLENUM;j++)
-			{
-				int index1 = i*CIRCLENUM+j;
-				int index2 = index1+CIRCLENUM;
-				glVertex3fv(g_allpos[index1]);
-				glVertex3fv(g_allpos[index2]);
-			}
-		}
-		glEnd();
-	}
-
+	SetView();
+	RenderWorld();
 	glPopMatrix();
 	glutSwapBuffers();
 }
@@ -597,7 +877,7 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(800, 800);
 	glutCreateWindow("第一个OpenGL程序");
 	glutDisplayFunc(&myDisplay);
-	glutTimerFunc(1,myTimerFunc,1);
+	glutTimerFunc(1,myTimerFunc,0);
 	glutReshapeFunc(&myReshape);
 	glutKeyboardFunc(&myKeyboardFunc);
 	SetRC();
