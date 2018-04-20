@@ -1,30 +1,38 @@
 ﻿﻿// test.cpp : Defines the entry point for the console application.
 #include "stdafx.h"
 
-	using namespace std;
-
 void myDisplay(void);
+
 int g_iCurFrame=0;
-int g_mode = 0;
-float g_angle = 0 ;
+int g_mode = 0;	   //轨迹的填充模式
+float g_angle = 0 ;//xOy平面旋转角度
+
+/*画名字轨迹的全局变量*/
 #define POINTNUM 129
 #define CIRCLENUM 20
 CVector068 g_pos[POINTNUM];
 CVector068 g_circle[CIRCLENUM];
 CVector068 g_allpos[POINTNUM*CIRCLENUM];
-CVector068 g_ballpos,g_balldir;//球的位置和方向
 
-float g_ballspeed = 0.06;//球的速度
-float g_ballspeed1 = 0;
-int g_ballindex;//当前球所在的曲线节点位置
-int change=0;//视点控制
+/*控制小球速度的全局变量*/
+CVector068 g_ballpos,g_balldir;//球的位置和方向
+CVector068 g_prepos;  //球的下一个位置
+float g_ballspeed = 0.06;	   //球的速度
+float g_ballspeed1 = 0;		   //球的反向速度
+int g_ballindex;			   //当前球所在的曲线节点位置
+int change=0;				   //视点控制
 
 //视点位置和方向
-float mx=0,my=5,mz=10,rx=-25,ry=0,rz=0;//平移和旋转
-float sx=1,sy=1,sz=1;//缩放
-float mspeed=1,rspeed=1;
-float g_IEyeMat[16]={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1},g_EyeMat[16]={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
-int mode=0;
+float mx=0,my=5,mz=10,rx=0,ry=0,rz=0;//平移和旋转
+float sx=1,sy=1,sz=1;					//缩放
+float mspeed=1;							//平移速度
+float rspeed=1;							//旋转速度
+float g_IEyeMat[16]={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+float g_EyeMat[16]={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+int mode=0;//视点控制模式
+
+int pers2=0;
+float robotspeed=-10.0;
 //////////////////////////////////////////////////////////////////////////
 
 void update()
@@ -36,6 +44,7 @@ void update()
 		if(g_ballindex>0)
 		{
 			float leftlen = (g_pos[g_ballindex-1] - g_ballpos).len();
+			g_prepos=g_ballpos;
 			g_balldir = g_pos[g_ballindex-1]-g_ballpos;
 			g_balldir.Normalize();
 			if(leftlen>=g_ballspeed1)
@@ -73,6 +82,7 @@ void update()
 		if(g_ballindex<POINTNUM-1)
 		{
 			float leftlen = (g_pos[g_ballindex+1] - g_ballpos).len();
+			g_prepos=g_ballpos;
 			g_balldir = g_pos[g_ballindex+1]-g_ballpos;
 			g_balldir.Normalize();
 			if(leftlen>=g_ballspeed1)
@@ -188,9 +198,11 @@ void RenderWorld()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix();
-
+	/*设置初始位置*/
 	glTranslatef(0,0,-25);
 	glRotatef(g_angle,0,1,0);
+
+	/*控制机器人方向的向量，v2是机器人头的朝向*/
 	CVector068 v1,v2,v3;
 	v1.Set(0,0,1);
 	v3.Set(0,1,0);
@@ -200,7 +212,7 @@ void RenderWorld()
 	if(change == 1){
 		glMatrixMode( GL_MODELVIEW );
 		glLoadIdentity();
-		CVector068 pos = g_ballpos + g_balldir*(-10);
+		CVector068 pos = g_ballpos + g_balldir*robotspeed;
 		gluLookAt(pos.x,pos.y,pos.z,g_ballpos.x,g_ballpos.y,g_ballpos.z,v2.x,v2.y,0);
 	}
 
@@ -249,10 +261,12 @@ void RenderWorld()
 
 		for(int i=0;i<POINTNUM-1;i++)
 		{
-			if(i==midlast)//
+			if(i==2 || i==6 || i==18 || i==25 ||i==32|| i==34 || i==36
+			 ||i==46||i==56||i==66||i==76 || i==85 || i==94 || i==123 || i==124
+			 ||i==100||i==104)//
 			{
 				glEnd();
-				glColor4f(0.1,0.1,0.1,0.5);
+				glColor4f(0.05,0.05,0.05,0.5);
 				glBegin(GL_TRIANGLE_STRIP);
 			}
 			else
@@ -283,6 +297,7 @@ void myTimerFunc(int val)
 
 void SetView()
 {
+
 	if(mode==0)
 	{
 		glLoadMatrixf(g_EyeMat);
@@ -293,6 +308,32 @@ void SetView()
 		glRotatef(-rx,1,0,0);
 		glRotatef(-ry,0,1,0);
 		glTranslatef(-mx,-my,-mz);
+	}
+
+	if (pers2==1)
+	{
+		CVector068 dis = g_ballpos - g_prepos;
+		if (mode == 0)
+		{
+			glPushMatrix();
+			glLoadIdentity();
+			glMultMatrixf(g_EyeMat);
+			glTranslatef(-dis.x, -dis.y, -dis.z);
+			glGetFloatv(GL_MODELVIEW_MATRIX, g_EyeMat);
+			glPopMatrix();
+			glLoadMatrixf(g_EyeMat);
+		}
+		else
+		{
+			mx += dis.x;
+			my += dis.y;
+			mz += dis.z;
+			glLoadIdentity();
+			glRotatef(-rz,0,0,1);
+			glRotatef(-rx,1,0,0);
+			glRotatef(-ry,0,1,0);
+			glTranslatef(-mx,-my,-mz);
+		}
 	}
 }
 
@@ -575,6 +616,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 	{
 	case 'w':
 		//my+=mspeed;
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -593,6 +638,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 		break;
 	case 's':
 		//my-=mspeed;
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -612,6 +661,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 		break;
 	case 'a':
 		//mx-=mspeed;
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -630,6 +683,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'd':
+		if (change==1)
+		{
+			break;
+		}
 		//mx+=mspeed;
 		if(mode==0)
 		{
@@ -649,6 +706,11 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'q':
+		if (change==1)
+		{
+			robotspeed+=0.3;
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -668,6 +730,11 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'e':
+		if (change==1)
+		{
+			robotspeed-=0.3;
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -687,6 +754,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'i':
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -703,6 +774,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 		}
 		break;
 	case 'k':
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -720,6 +795,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'j':
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -737,6 +816,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'l':
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -754,6 +837,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'u':
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -771,6 +858,10 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 
 		break;
 	case 'o':
+		if (change==1)
+		{
+			break;
+		}
 		if(mode==0)
 		{
 			glPushMatrix();
@@ -791,45 +882,48 @@ void myKeyboardFunc(unsigned char key,int x, int y)
 		change=1-change;
 		break;
 	case '2':
-		sx-=0.1;
+		pers2=1-pers2;
 		break;
 	case '3':
-		sy+=0.1;
-		break;
-	case '4':
-		sy-=0.1;
-		break;
-	case '5':
-		sz+=0.1;
-		break;
-	case '6':
-		sz-=0.1;
-		break;
-	case '0':
-		mode = 1-mode;
-		if(mode==0)
-		{
-			glPushMatrix();
-			glLoadIdentity();
-			glRotatef(-rz,0,0,1);
-			glRotatef(-rx,1,0,0);
-			glRotatef(-ry,0,1,0);
-			glTranslatef(-mx,-my,-mz);
-			glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
-			glPopMatrix();
-		}
+		mode=1;
 		printf("mode:%d\n",mode);
 		break;
-	case '=':
+	case '4':
+		mode=0;
+		glPushMatrix();
+		glLoadIdentity();
+		glRotatef(-rz,0,0,1);
+		glRotatef(-rx,1,0,0);
+		glRotatef(-ry,0,1,0);
+		glTranslatef(-mx,-my,-mz);
+		glGetFloatv(GL_MODELVIEW_MATRIX,g_EyeMat);
+		glPopMatrix();
+		printf("mode:%d\n",mode);
+		break;
+	case ']':
 		mspeed*=1.1;
 		printf("mspeed:%.1f\n",mspeed);
 		break;
-	case '-':
+	case '[':
 		mspeed*=0.9;
 		printf("mspeed:%.1f\n",mspeed);
 		break;
+	case '{':
+		rspeed*=1.1;
+		printf("rspeed:%.1f\n",rspeed);
+		break;
+	case '}':
+		rspeed*=0.9;
+		printf("rspeed:%.1f\n",rspeed);
+		break;
 	case ' ':
 		g_mode=1-g_mode;
+		break;
+	case '-':
+		g_ballspeed-=0.01;
+		break;
+	case '+':
+		g_ballspeed+=0.01;
 		break;
 	}
 	if(bChange)//计算视点矩阵的逆矩阵

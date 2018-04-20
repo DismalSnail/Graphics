@@ -1,4 +1,4 @@
-﻿生成启动时间为 2018/4/17 19:27:13。
+﻿生成启动时间为 2018/4/20 12:17:18。
      1>项目“C:\Users\10310\documents\visual studio 2010\Projects\test\test\test.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\test.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
@@ -34,4 +34,4 @@
 
 生成成功。
 
-已用时间 00:00:01.63
+已用时间 00:00:01.60
