@@ -353,6 +353,7 @@ void CQuaternion::Slerp( CQuaternion& Vend,int n,float *t,CQuaternion *Result)
 	//CQU.w=w;CQU.x=x;CQU.y=y;CQU.z=z;
 	for (int i=0;i<n;i++)
 	{
-		Result[i]=this->Slerp(Vend,t[i]);
+		float times=t[i];
+		Result[i]=Slerp(Vend,times);
 	}
 }

@@ -155,14 +155,68 @@ CVector068 operator*(float n,CVector068 &p)
 //************************************
 CEuler CVector068::ToEuler()
 {
-	CEuler CEuler_T;
-	float cseta1;
-	cseta1=-z/(sqrt(x*x+z*z));
-	CEuler_T.h=acos(cseta1)*180/PI;
-	if(x>0) CEuler_T.h=-CEuler_T.h;
-	cseta1=(x*x+z*z)/(sqrt(x*x+y*y+z*z)*sqrt(x*x+z*z));
-	CEuler_T.p=acos(cseta1)*180/PI;
-	if(y<0) CEuler_T.p=-CEuler_T.p;
-	CEuler_T.b=0.0;
-	return CEuler_T;
+	CEuler ans;
+	//向量只能得到物体的模型运动方向，而滚转方向则未知
+	ans.b = 0;
+	CVector068 h, nz;
+	//求heading角
+	h.x = x;
+	h.y = 0;
+	h.z = z;
+	if (h.x == 0 && h.z == 0)
+	{
+		ans.h = 0;
+		if (this->y > 0)
+		{
+			ans.p = 90;
+		}
+		else if (this->y < 0)
+		{
+			ans.p = -90;
+		}
+		else
+		{
+			ans.p = 0;
+		}
+		return ans;
+	}
+	nz.z=-1;
+	float radianH = acosf(nz.dotMul(h) / (h.len() * nz.len()));
+	float angleH = radianH * 180 / acosf(-1);
+	if (x > 0)
+	{
+		ans.h = -1 * angleH;
+	}
+	else
+	{
+		ans.h = angleH;
+	}
+	//求pitch角
+	float radianP = fabs(acosf(this->dotMul(h) / (this->len() * h.len())));
+	float angleP = radianP * 180 / acosf(-1);
+	if (x > 0)
+	{
+		if (y > 0)
+		{
+			ans.p = angleP;
+		}
+		else
+		{
+			ans.p = -angleP;
+		}
+	}
+	else if (x < 0)
+	{
+		if (y > 0)
+		{
+			ans.p = angleP;
+		}
+		else
+		{
+			ans.p = -angleP;
+		}
+	}
+	ans.Normal();
+	return ans;
 }
+
