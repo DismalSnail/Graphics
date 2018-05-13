@@ -1,36 +1,92 @@
-ï»¿========================================================================
-    æŽ§åˆ¶å°åº”ç”¨ç¨‹åºï¼štest é¡¹ç›®æ¦‚è¿°
-========================================================================
+================================================================================
+MICROSOFT »ù´¡Àà¿â: Homework5 ÏîÄ¿¸ÅÊö
+===============================================================================
 
-åº”ç”¨ç¨‹åºå‘å¯¼å·²ä¸ºæ‚¨åˆ›å»ºäº†æ­¤ test åº”ç”¨ç¨‹åºã€‚
+Ó¦ÓÃ³ÌÐòÏòµ¼ÒÑÎªÄú´´½¨ÁËÕâ¸ö Homework5 Ó¦ÓÃ³ÌÐò¡£´ËÓ¦ÓÃ³ÌÐò²»½öÑÝÊ¾ Microsoft »ù´¡ÀàµÄ»ù±¾Ê¹ÓÃ·½·¨£¬»¹¿É×÷ÎªÄú±àÐ´Ó¦ÓÃ³ÌÐòµÄÆðµã¡£
 
-æœ¬æ–‡ä»¶æ¦‚è¦ä»‹ç»ç»„æˆ test åº”ç”¨ç¨‹åºçš„æ¯ä¸ªæ–‡ä»¶çš„å†…å®¹ã€‚
+±¾ÎÄ¼þ¸ÅÒª½éÉÜ×é³É Homework5 Ó¦ÓÃ³ÌÐòµÄÃ¿¸öÎÄ¼þµÄÄÚÈÝ¡£
 
+Homework5.vcxproj
+ÕâÊÇÊ¹ÓÃÓ¦ÓÃ³ÌÐòÏòµ¼Éú³ÉµÄ VC++ ÏîÄ¿µÄÖ÷ÏîÄ¿ÎÄ¼þ¡£ 
+Ëü°üº¬Éú³É¸ÃÎÄ¼þµÄ Visual C++ µÄ°æ±¾ÐÅÏ¢£¬ÒÔ¼°ÓÐ¹ØÊ¹ÓÃÓ¦ÓÃ³ÌÐòÏòµ¼Ñ¡ÔñµÄÆ½Ì¨¡¢ÅäÖÃºÍÏîÄ¿¹¦ÄÜµÄÐÅÏ¢¡£
 
-test.vcxproj
-    è¿™æ˜¯ä½¿ç”¨åº”ç”¨ç¨‹åºå‘å¯¼ç”Ÿæˆçš„ VC++ é¡¹ç›®çš„ä¸»é¡¹ç›®æ–‡ä»¶ï¼Œ
-    å…¶ä¸­åŒ…å«ç”Ÿæˆè¯¥æ–‡ä»¶çš„ Visual C++ 
-    çš„ç‰ˆæœ¬ä¿¡æ¯ï¼Œä»¥åŠæœ‰å…³ä½¿ç”¨åº”ç”¨ç¨‹åºå‘å¯¼é€‰æ‹©çš„å¹³å°ã€é…ç½®å’Œé¡¹ç›®åŠŸèƒ½çš„ä¿¡æ¯ã€‚
+Homework5.vcxproj.filters
+    ÕâÊÇÊ¹ÓÃ¡°Ó¦ÓÃ³ÌÐòÏòµ¼¡±Éú³ÉµÄ VC++ ÏîÄ¿É¸Ñ¡Æ÷ÎÄ¼þ¡£
+    Ëü°üº¬ÓÐ¹ØÏîÄ¿ÎÄ¼þÓëÉ¸Ñ¡Æ÷Ö®¼äµÄ¹ØÁªÐÅÏ¢¡£ÔÚ IDE ÖÐ£¬Í¨¹ýÕâÖÖ¹ØÁª£¬ÔÚÌØ¶¨½ÚµãÏÂÒÔ·Ö×éÐÎÊ½ÏÔÊ¾¾ßÓÐÏàËÆÀ©Õ¹ÃûµÄÎÄ¼þ¡£ÀýÈç£¬¡°.cpp¡±ÎÄ¼þÓë¡°Ô´ÎÄ¼þ¡±É¸Ñ¡Æ÷¹ØÁª¡£
 
-test.vcxproj.filters
-    è¿™æ˜¯ä½¿ç”¨â€œåº”ç”¨ç¨‹åºå‘å¯¼â€ç”Ÿæˆçš„ VC++ é¡¹ç›®ç­›é€‰å™¨æ–‡ä»¶ã€‚ 
-    å®ƒåŒ…å«æœ‰å…³é¡¹ç›®æ–‡ä»¶ä¸Žç­›é€‰å™¨ä¹‹é—´çš„å…³è”ä¿¡æ¯ã€‚ åœ¨ IDE 
-    ä¸­ï¼Œé€šè¿‡è¿™ç§å…³è”ï¼Œåœ¨ç‰¹å®šèŠ‚ç‚¹ä¸‹ä»¥åˆ†ç»„å½¢å¼æ˜¾ç¤ºå…·æœ‰ç›¸ä¼¼æ‰©å±•åçš„æ–‡ä»¶ã€‚
-    ä¾‹å¦‚ï¼Œâ€œ.cppâ€æ–‡ä»¶ä¸Žâ€œæºæ–‡ä»¶â€ç­›é€‰å™¨å…³è”ã€‚
+Homework5.h
+ÕâÊÇÓ¦ÓÃ³ÌÐòµÄÖ÷ÒªÍ·ÎÄ¼þ¡£Ëü°üÀ¨ÆäËûÏîÄ¿ÌØ¶¨µÄÍ·ÎÄ¼þ(°üÀ¨ Resource.h)£¬²¢ÉùÃ÷ CHomework5App Ó¦ÓÃ³ÌÐòÀà¡£
 
-test.cpp
-    è¿™æ˜¯ä¸»åº”ç”¨ç¨‹åºæºæ–‡ä»¶ã€‚
+Homework5.cpp
+ÕâÊÇ°üº¬Ó¦ÓÃ³ÌÐòÀà CHomework5App µÄÖ÷ÒªÓ¦ÓÃ³ÌÐòÔ´ÎÄ¼þ¡£
+
+Homework5.rc
+ÕâÊÇ³ÌÐòÊ¹ÓÃµÄËùÓÐ Microsoft Windows ×ÊÔ´µÄÁÐ±í¡£Ëü°üÀ¨ RES ×ÓÄ¿Â¼ÖÐ´æ´¢µÄÍ¼±ê¡¢Î»Í¼ºÍ¹â±ê¡£´ËÎÄ¼þ¿ÉÒÔÖ±½ÓÔÚ Microsoft Visual C++ ÖÐ½øÐÐ±à¼­¡£ÏîÄ¿×ÊÔ´Î»ÓÚ 2052 ÖÐ¡£
+
+res\Homework5.ico
+ÕâÊÇÓÃ×÷Ó¦ÓÃ³ÌÐòÍ¼±êµÄÍ¼±êÎÄ¼þ¡£´ËÍ¼±ê°üÀ¨ÔÚÖ÷Òª×ÊÔ´ÎÄ¼þ Homework5.rc ÖÐ¡£
+
+res\Homework5.rc2
+´ËÎÄ¼þ°üº¬²»ÔÚ Microsoft Visual C++ ÖÐ½øÐÐ±à¼­µÄ×ÊÔ´¡£ÄúÓ¦¸Ã½«²»¿ÉÓÉ×ÊÔ´±à¼­Æ÷±à¼­µÄËùÓÐ×ÊÔ´·ÅÔÚ´ËÎÄ¼þÖÐ¡£
 
 /////////////////////////////////////////////////////////////////////////////
-å…¶ä»–æ ‡å‡†æ–‡ä»¶ï¼š
 
-StdAfx.hï¼ŒStdAfx.cpp
-    è¿™äº›æ–‡ä»¶ç”¨äºŽç”Ÿæˆåä¸º test.pch çš„é¢„ç¼–è¯‘å¤´ (PCH) æ–‡ä»¶å’Œ
-    åä¸º StdAfx.obj çš„é¢„ç¼–è¯‘ç±»åž‹æ–‡ä»¶ã€‚
+¶ÔÓÚÖ÷¿ò¼Ü´°¿Ú:
+ÏîÄ¿°üº¬±ê×¼ MFC ½çÃæ¡£
+
+MainFrm.h, MainFrm.cpp
+ÕâÐ©ÎÄ¼þ°üº¬¿ò¼ÜÀà CMainFrame£¬¸ÃÀàÅÉÉú×Ô
+CFrameWnd ²¢¿ØÖÆËùÓÐ SDI ¿ò¼Ü¹¦ÄÜ¡£
 
 /////////////////////////////////////////////////////////////////////////////
-å…¶ä»–æ³¨é‡Šï¼š
 
-åº”ç”¨ç¨‹åºå‘å¯¼ä½¿ç”¨â€œTODO:â€æ³¨é‡Šæ¥æŒ‡ç¤ºåº”æ·»åŠ æˆ–è‡ªå®šä¹‰çš„æºä»£ç éƒ¨åˆ†ã€‚
+Ó¦ÓÃ³ÌÐòÏòµ¼´´½¨Ò»¸öÎÄµµÀàÐÍºÍÒ»¸öÊÓÍ¼:
+
+Homework5Doc.h£¬Homework5Doc.cpp - ÎÄµµ
+ÕâÐ©ÎÄ¼þ°üº¬ CHomework5Doc Àà¡£±à¼­ÕâÐ©ÎÄ¼þ¿ÉÒÔÌí¼ÓÌØÊâÎÄµµÊý¾Ý²¢¿ÉÊµÏÖÎÄ¼þ±£´æºÍ¼ÓÔØ(Í¨¹ý CHomework5Doc::Serialize)¡£
+
+Homework5View.h£¬Homework5View.cpp - ÎÄµµµÄÊÓÍ¼
+ÕâÐ©ÎÄ¼þ°üº¬ CHomework5View Àà¡£
+CHomework5View ¶ÔÏóÓÃÓÚ²é¿´ CHomework5Doc ¶ÔÏó¡£
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+ÆäËû¹¦ÄÜ:
+
+ActiveX ¿Ø¼þ
+Ó¦ÓÃ³ÌÐò°üÀ¨¶ÔÊ¹ÓÃ ActiveX ¿Ø¼þµÄÖ§³Ö¡£
+
+´òÓ¡¼°´òÓ¡Ô¤ÀÀÖ§³Ö
+Ó¦ÓÃ³ÌÐòÏòµ¼ÒÑÍ¨¹ý´Ó MFC ¿âµ÷ÓÃ CView ÀàÖÐµÄ³ÉÔ±º¯Êý£¬Éú³ÉÁËÓÃÓÚ´¦Àí´òÓ¡¡¢´òÓ¡ÉèÖÃºÍ´òÓ¡Ô¤ÀÀÃüÁîµÄ´úÂë¡£
+
+/////////////////////////////////////////////////////////////////////////////
+
+ÆäËû±ê×¼ÎÄ¼þ:
+
+StdAfx.h£¬StdAfx.cpp
+ÕâÐ©ÎÄ¼þÓÃÓÚÉú³ÉÃûÎª Homework5.pch µÄÔ¤±àÒëÍ· (PCH) ÎÄ¼þºÍÃûÎª StdAfx.obj µÄÔ¤±àÒëÀàÐÍÎÄ¼þ¡£
+
+Resource.h
+ÕâÊÇ±ê×¼Í·ÎÄ¼þ£¬Ëü¶¨ÒåÐÂµÄ×ÊÔ´ ID¡£
+Microsoft Visual C++ ¶ÁÈ¡²¢¸üÐÂ´ËÎÄ¼þ¡£
+
+Homework5.manifest
+	Ó¦ÓÃ³ÌÐòÇåµ¥ÎÄ¼þ¹© Windows XP ÓÃÀ´ÃèÊöÓ¦ÓÃ³ÌÐò
+	¶ÔÌØ¶¨°æ±¾²¢ÐÐ³ÌÐò¼¯µÄÒÀÀµÐÔ¡£¼ÓÔØ³ÌÐòÊ¹ÓÃ´Ë
+	ÐÅÏ¢´Ó³ÌÐò¼¯»º´æ¼ÓÔØÊÊµ±µÄ³ÌÐò¼¯»ò
+	´ÓÓ¦ÓÃ³ÌÐò¼ÓÔØË½ÓÐÐÅÏ¢¡£Ó¦ÓÃ³ÌÐòÇåµ¥¿ÉÄÜÎªÁËÖØÐÂ·Ö·¢¶ø×÷Îª
+	ÓëÓ¦ÓÃ³ÌÐò¿ÉÖ´ÐÐÎÄ¼þ°²×°ÔÚÏàÍ¬ÎÄ¼þ¼ÐÖÐµÄÍâ²¿ .manifest ÎÄ¼þ°üÀ¨£¬
+	Ò²¿ÉÄÜÒÔ×ÊÔ´µÄÐÎÊ½°üÀ¨ÔÚ¸Ã¿ÉÖ´ÐÐÎÄ¼þÖÐ¡£ 
+/////////////////////////////////////////////////////////////////////////////
+
+ÆäËû×¢ÊÍ:
+
+Ó¦ÓÃ³ÌÐòÏòµ¼Ê¹ÓÃ¡°TODO:¡±Ö¸Ê¾Ó¦Ìí¼Ó»ò×Ô¶¨ÒåµÄÔ´´úÂë²¿·Ö¡£
+
+Èç¹ûÓ¦ÓÃ³ÌÐòÔÚ¹²ÏíµÄ DLL ÖÐÊ¹ÓÃ MFC£¬ÔòÐèÒªÖØÐÂ·¢²¼ÕâÐ© MFC DLL£»Èç¹ûÓ¦ÓÃ³ÌÐòËùÓÃµÄÓïÑÔÓë²Ù×÷ÏµÍ³µÄµ±Ç°ÇøÓòÉèÖÃ²»Í¬£¬Ôò»¹ÐèÒªÖØÐÂ·¢²¼¶ÔÓ¦µÄ±¾µØ»¯×ÊÔ´ MFC100XXX.DLL¡£ÓÐ¹ØÕâÁ½¸öÖ÷ÌâµÄ¸ü¶àÐÅÏ¢£¬Çë²Î¼û MSDN ÎÄµµÖÐÓÐ¹Ø Redistributing Visual C++ applications (ÖØÐÂ·¢²¼ Visual C++ Ó¦ÓÃ³ÌÐò)µÄÕÂ½Ú¡£
 
 /////////////////////////////////////////////////////////////////////////////
