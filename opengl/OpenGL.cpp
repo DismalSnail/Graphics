@@ -21,14 +21,20 @@ COpenGL::COpenGL()
 	m_hDC=0;
 	m_hglrc=0;
 
-	m_pCamera=NULL;
+	m_pCamere=NULL;
 	m_pControl=NULL;
+	m_pFont=NULL;
+	m_pShape=NULL;
+	m_pPicLoad=NULL;
 }
 
 COpenGL::~COpenGL()
 {
-	delete m_pCamera;
+	delete m_pCamere;
 	delete m_pControl;
+	delete m_pFont;
+	delete m_pShape;
+	delete m_pPicLoad;
 }
 
 bool COpenGL::Init(HWND hWnd)	//初始化OpenGL环境
@@ -79,8 +85,11 @@ bool COpenGL::Init(HWND hWnd)	//初始化OpenGL环境
 	m_PerspectiveParam[0]=60;
 	m_PerspectiveParam[2]=0.1;
 	m_PerspectiveParam[3]=10000;
-	m_pCamera = new Camera068;
-	m_pControl = new Control068(this);
+	m_pCamere = new CglCamera;
+	m_pControl = new CglControl(this);
+	m_pFont = new CglFont;
+	m_pShape = new CglShape;
+	m_pPicLoad = new CglPicLoad;
 	PostInit();
 	return true;
 }
@@ -124,7 +133,7 @@ bool COpenGL::PreTranslateMessage(unsigned int message, unsigned int wParam, uns
 void COpenGL::OnView()
 {
 	//从相机类获得视点参数，此处设置视点信息
-	m_pCamera->ShowView();
+	m_pCamere->ShowView();
 	m_pControl->KeyboardCtrlView();
 }
 

@@ -3,7 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "Control068.h"
 #include "Camera068.h"
 #include "OpenGL.h"
 #ifdef _DEBUG

@@ -9,12 +9,15 @@
 #pragma once
 #endif // _MSC_VER > 1000
 #include "gl\glut.h"
-#include "Camera068.h"
-#include "Quaternion.h"
-#include "Vector068.h"
-#include "Euler.h"
-#include "Control068.h"
-#include "Matrix068.h"
+#include "glCamera.h"
+#include "glControl.h"
+#include "glFont.h"
+#include "glMaterial.h"
+#include "glPicLoad.h"
+#include "glShape.h"
+#include "glMath.h"
+#include "glParticle.h"
+#include "glParticleCtrl.h"
 class COpenGL  
 {
 public:
@@ -30,12 +33,16 @@ public:
 	virtual bool OnKey(unsigned int nChar,bool bDown);
 	virtual bool OnMouse(int message,CPoint pt);
 	friend class CglControl;
+protected:
 	HDC m_hDC;
 	HGLRC m_hglrc;
 	float m_PerspectiveParam[4];
-	Control068 *m_pControl;
+	CglControl *m_pControl;
 	HWND m_hWnd;
-	Camera068 *m_pCamera;
+	CglCamera *m_pCamere;
+	CglFont *m_pFont;
+	CglShape *m_pShape;
+	CglPicLoad *m_pPicLoad;
 	float m_fps;
 };
 

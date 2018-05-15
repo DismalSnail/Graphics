@@ -1,6 +1,4 @@
-#include "StdAfx.h"
-
-
+#include "stdafx.h"
 
 CVector068::CVector068(float fx,float fy,float fz)
 {
@@ -22,11 +20,11 @@ CVector068::~CVector068(void)
 }
 
 
-void CVector068::Set(float x,float y,float z)
+void CVector068::Set(float fx,float fy,float fz)
 {
-	this->x = x;
-	this->y = y;
-	this->z = z;
+	x = fx;
+	y = fy;
+	z = fz;
 }
 float CVector068::dotMul(CVector068 &n)
 {
@@ -75,9 +73,9 @@ CVector068 CVector068::project(CVector068 &n)
 CVector068 CVector068::operator+(CVector068 &p)
 {
 	CVector068 CVector068_T;
-	CVector068_T.x = this->x + p.x;
-	CVector068_T.y = this->y + p.y;
-	CVector068_T.z = this->z + p.z;
+	CVector068_T.x = x + p.x;
+	CVector068_T.y = y + p.y;
+	CVector068_T.z = z + p.z;
 
 	return CVector068_T;
 }
@@ -85,31 +83,31 @@ CVector068 CVector068::operator+(CVector068 &p)
 CVector068 CVector068::operator-(CVector068 &p)
 {
 	CVector068 CVector068_T;
-	CVector068_T.x = this->x - p.x;
-	CVector068_T.y = this->y - p.y;
-	CVector068_T.z = this->z - p.z;
+	CVector068_T.x = x - p.x;
+	CVector068_T.y = y - p.y;
+	CVector068_T.z = z - p.z;
 
 	return CVector068_T;
 }
 
 void CVector068::operator=(CVector068 &p)
 {
-	this->x = p.x;
-	this->y = p.y;
-	this->z = p.z;
+	x = p.x;
+	y = p.y;
+	z = p.z;
 }
 
 bool CVector068::operator==(CVector068 &p)
 {
-	if (this->x != p.x)
+	if (x != p.x)
 	{
 		return false;
 	} 
-	if (this->y != p.y)
+	if (y != p.y)
 	{
 		return false;
 	}
-	if(this->z != p.z)
+	if(z != p.z)
 	{
 		return false;
 	}
@@ -120,15 +118,15 @@ bool CVector068::operator==(CVector068 &p)
 bool CVector068::operator!=(CVector068 &p)
 {
 
-	if (this->x != p.x)
+	if (x != p.x)
 	{
 		return true;
 	} 
-	if (this->y != p.y)
+	if (y != p.y)
 	{
 		return true;
 	}
-	if(this->z != p.z)
+	if(z != p.z)
 	{
 		return true;
 	}

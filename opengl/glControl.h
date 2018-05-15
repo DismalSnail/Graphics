@@ -1,4 +1,4 @@
-// glControl.h: interface for the Control068 class.
+// glControl.h: interface for the CglControl class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -8,23 +8,23 @@
 #pragma once
 #endif // _MSC_VER > 1000
 class COpenGL;
-class Camera068;
-class Control068
+class CglCamera;
+class CglControl  
 {
 public:
 	void SetSpeed(float ms,float rs);
 	bool KeyboardCtrlView();
-
+	
 	bool PreTranslateMessage(unsigned int message,unsigned int wParam,unsigned int lParam);
-	Control068(COpenGL *pGL);
-	virtual ~Control068();
+	CglControl(COpenGL *pGL);
+	virtual ~CglControl();
 
 	//°´¼ü×´Ì¬£»
 	enum KEYSTATUS{KS_M_RIGHT,KS_M_LEFT,KS_M_UP,KS_M_DOWN,KS_M_BACK,KS_M_FRONT,\
 		KS_R_LEFT,KS_R_RIGHT,KS_R_UP,KS_R_DOWN,KS_R_FRONT,KS_R_BACK,\
 		KS_M_STEP_N,KS_M_STEP_P,KS_R_STEP_N,KS_R_STEP_P,\
 		KS_RESTORE,KS_ALL
-	}KeyVal;
+		}KeyVal;
 	bool m_keyStatus[KS_ALL];
 
 	//Êó±ê°´¼ü×´Ì¬
@@ -33,7 +33,7 @@ public:
 	CPoint m_MousePos;
 
 	COpenGL *m_pOpenGL;	
-	Camera068 *m_pCamera;
+	CglCamera *m_pCamera;
 private:
 	bool SetKeyStatus(unsigned int nChar,bool bVal);
 	bool MouseCtrlView(int message,CPoint pt);
