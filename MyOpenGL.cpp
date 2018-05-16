@@ -314,10 +314,6 @@ void CMyOpenGL::RenderWorld()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	//
 	glPushMatrix();
-	/*设置初始位置*/
-	// glTranslatef(0,0,-25);
-	// glRotatef(g_angle,0,1,0);
-
 
 	/*控制机器人方向的向量，v2是机器人头的朝向*/
 	CVector068 v1,v2,v3;
