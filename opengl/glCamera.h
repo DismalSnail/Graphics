@@ -6,11 +6,13 @@
 #define AFX_GLCAMERA_H__090064F1_F0BF_4146_A666_5CC6841483C2__INCLUDED_
 #include "glVector3.h"
 #include "Vector068.h"
+#include "Matrix068.h"
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-class CglCamera  
+class AFX_CLASS_EXPORT CglCamera  
 {
 public:
 	void SetType(int type);
@@ -32,6 +34,7 @@ public:
 	float m_viewMatrixSave[16];	//保存的视图矩阵
 	int m_type;//	相机类型。0表示地面漫游(hpr累积)，1表示任意漫游，2表示环绕漫游
 	CMatrix068 g_ieye,g_eye,g_inverse;//视点矩阵，逆矩阵
+	float QZ;
 };
 
 #endif // !defined(AFX_GLCAMERA_H__090064F1_F0BF_4146_A666_5CC6841483C2__INCLUDED_)

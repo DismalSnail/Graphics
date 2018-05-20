@@ -4,11 +4,11 @@
 
 #if !defined(AFX_GLPICLOAD_H__ED534D1B_A772_40BD_B4DC_4F399552A3C7__INCLUDED_)
 #define AFX_GLPICLOAD_H__ED534D1B_A772_40BD_B4DC_4F399552A3C7__INCLUDED_
-
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-class CglImageData
+class AFX_CLASS_EXPORT CglImageData
 {
 public:
 	int m_width;

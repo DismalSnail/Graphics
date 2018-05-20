@@ -1,10 +1,10 @@
 #pragma once
-
+#include"afxver_.h"
 
 class CQuaternion;
 class CEuler;
 class CVector068;
-class CMatrix068
+class AFX_CLASS_EXPORT CMatrix068
 {
 public:
 	CMatrix068(void);

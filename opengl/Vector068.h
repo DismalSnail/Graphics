@@ -1,10 +1,12 @@
 #pragma once
 
+#include"afxver_.h"
+
 class CEuler;
 class CVector068;
 class CMatrix068;
 
-class CVector068
+class AFX_CLASS_EXPORT CVector068
 {
 public:
 	float x;
@@ -18,8 +20,7 @@ public:
 	void operator=(CVector068 &p);						//重载向量赋值
 	bool operator==(CVector068 &p);						//重载向量 ==
 	bool operator!=(CVector068 &p);						//重载向量 !=
-	friend CVector068 operator*(CVector068 &p,float n);	//向量数乘
-	friend CVector068 operator*(float n,CVector068 &p);
+    CVector068 operator*(float n);	//向量数乘
 	float dotMul(CVector068 &n);						//向量点乘
 	CVector068 crossMul(CVector068 &n);					//向量叉乘
 	void Normalize();									//向量标准化

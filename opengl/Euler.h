@@ -1,9 +1,9 @@
 #pragma once
-
+#include"afxver_.h"
 class CMatrix068;
 class CVector068;
 class CQuaternion;
-class CEuler
+class AFX_CLASS_EXPORT CEuler
 {
 public:
 	CEuler(void);

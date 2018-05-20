@@ -6,11 +6,12 @@
 #define AFX_GLFONT_H__6C94D756_CC61_4203_B4A1_D0A7D46BD91B__INCLUDED_
 #include "gl\glut.h"
 #include <afxtempl.h>
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-class CglFont  
+class AFX_CLASS_EXPORT CglFont  
 {
 public:
 	CglFont();

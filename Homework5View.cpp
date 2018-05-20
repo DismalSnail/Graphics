@@ -142,6 +142,47 @@ void CHomework5View::OnSize(UINT nType, int cx, int cy)
 void CHomework5View::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	float xx[25]={0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04,0.04};
+	m_gl.g_angle+=0.1;
+	bool OK=false;
+	CQuaternion gball1,gball2;
+	CEuler Gball1,Gball2;
+	CVector068 g_x;
+	//g_angle=0;
+	if (m_gl.bx<1&&m_gl.mykey[0])
+	{
+		m_gl.bx+=0.1;
+	}
+	else if (m_gl.bx>0&&m_gl.g_ballindex==m_gl.rerobot)
+	{
+		m_gl.bx-=0.1;
+		if(m_gl.g_ballspeed!=0)
+		{
+			m_gl.g_old_ballspeed=m_gl.g_ballspeed;
+			m_gl.g_ballspeed=0;
+		}
+	}
+	else
+	{
+		if(!m_gl.SL&&!m_gl.ACBD)
+			m_gl.update();
+		g_x=m_gl.g_balldir-m_gl.g_oldballdir;
+		if(g_x.len()>0.05)
+			OK=true;
+		if(!m_gl.SL&&OK)
+		{
+			m_gl.SL=true;
+			OK=false;
+			m_gl.g_Nballdir=m_gl.g_balldir;
+			m_gl.g_balldir=m_gl.g_oldballdir;
+			Gball1=m_gl.g_oldballdir.ToEuler();
+			Gball2=m_gl.g_Nballdir.ToEuler();
+			gball1=Gball1.ToQuaternion();
+			gball2=Gball2.ToQuaternion();
+			gball1.Slerp(gball2,24,xx,m_gl.Result);
+			m_gl.ACBD=25;
+		}
+	}
 	m_gl.OnPaint();
 
 	CView::OnTimer(nIDEvent);

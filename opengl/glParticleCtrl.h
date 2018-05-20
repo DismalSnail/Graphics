@@ -6,11 +6,13 @@
 #define AFX_GLPARTICLECTRL_H__1E2CC9DB_3D1A_4260_BC38_96641CF07810__INCLUDED_
 #include "glParticle.h"
 #include "gl\glut.h"
+#include"afxver_.h"
 #if _MSC_VER > 1000
+
 #pragma once
 #endif // _MSC_VER > 1000
 
-class CglParticleCtrl  
+class AFX_CLASS_EXPORT CglParticleCtrl  
 {
 public:
 	void Draw();

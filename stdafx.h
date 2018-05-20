@@ -14,12 +14,7 @@
 #endif
 
 #include "targetver.h"
-#include "opengl\Matrix068.h"
-#include "opengl\Euler.h"
-#include "opengl\Quaternion.h"
-#include "opengl\Vector068.h"
-#include "math.h"
-#define PI 3.14159
+
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 某些 CString 构造函数将是显式的
 
@@ -45,7 +40,12 @@
 
 
 
-
+#include "opengl\Matrix068.h"
+#include "opengl\Euler.h"
+#include "opengl\Quaternion.h"
+#include "opengl\Vector068.h"
+#include "math.h"
+#define PI 3.14159
 
 
 

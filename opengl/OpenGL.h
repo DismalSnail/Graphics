@@ -4,7 +4,7 @@
 
 #if !defined(AFX_OPENGL_H__E5995580_D8B1_4938_ADFE_4A915C808FF2__INCLUDED_)
 #define AFX_OPENGL_H__E5995580_D8B1_4938_ADFE_4A915C808FF2__INCLUDED_
-
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
@@ -18,7 +18,7 @@
 #include "glMath.h"
 #include "glParticle.h"
 #include "glParticleCtrl.h"
-class COpenGL  
+class AFX_CLASS_EXPORT COpenGL  
 {
 public:
 	virtual void InDraw();

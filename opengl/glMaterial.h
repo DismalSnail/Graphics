@@ -5,11 +5,13 @@
 #if !defined(AFX_GLMATERIAL_H__38A53685_9FFF_4FEC_822F_D79FD4B60E0A__INCLUDED_)
 #define AFX_GLMATERIAL_H__38A53685_9FFF_4FEC_822F_D79FD4B60E0A__INCLUDED_
 #include "gl\glut.h"
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
+
 #endif // _MSC_VER > 1000
 
-class CglMaterial  
+class AFX_CLASS_EXPORT CglMaterial  
 {
 public:
 	static GLuint LoadGLTextures(char *filename);

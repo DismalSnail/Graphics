@@ -5,11 +5,13 @@
 #if !defined(AFX_GLPARTICLE_H__4645AC51_4FDA_433B_8315_923C6F9C96E0__INCLUDED_)
 #define AFX_GLPARTICLE_H__4645AC51_4FDA_433B_8315_923C6F9C96E0__INCLUDED_
 #include "glVector3.h"
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
+
 #endif // _MSC_VER > 1000
 class CglParticleCtrl;
-class CglParticle  
+class AFX_CLASS_EXPORT CglParticle  
 {
 public:
 	void BillBoard(const CglVector3 &eyepos);

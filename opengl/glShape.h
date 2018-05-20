@@ -5,11 +5,12 @@
 #if !defined(AFX_GLSHAPE_H__810EA52D_5C3D_466E_84FE_DF188F92B516__INCLUDED_)
 #define AFX_GLSHAPE_H__810EA52D_5C3D_466E_84FE_DF188F92B516__INCLUDED_
 #include "glVector3.h"
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-class CglShape  
+class AFX_CLASS_EXPORT CglShape  
 {
 public:
 	void DrawCoord(double len);

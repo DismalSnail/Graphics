@@ -6,11 +6,13 @@
 #define AFX_GLMATH_H__1234B2A7_4D8A_4F5D_815C_4AE0D4122751__INCLUDED_
 #include "gl\glut.h"
 #include "glVector3.h"
+#include"afxver_.h"
 #if _MSC_VER > 1000
 #pragma once
+
 #endif // _MSC_VER > 1000
 
-class CglMath  
+class AFX_CLASS_EXPORT CglMath  
 {
 public:
 	CglMath();

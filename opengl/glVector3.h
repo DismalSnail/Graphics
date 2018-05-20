@@ -6,7 +6,7 @@
 #define AFX_GLVECTOR3_H__926CE975_74C8_4369_B898_7D3823497800__INCLUDED_
 
 #include "math.h"
-
+#include"afxver_.h"
 
 #if _MSC_VER > 1000
 #pragma once
@@ -18,7 +18,7 @@
 //½Ç¶È×ª»¡¶È
 #define AngToRad(x) ((x)/180.0*PAI)
 
-class CglVector3  
+class AFX_CLASS_EXPORT CglVector3  
 {
 public:
 	CglVector3(void){x=0;y=0;z=0;};
